@@ -4,15 +4,24 @@ import AuthCard from '../components/auth/AuthCard';
 import LoginForm from '../components/auth/LoginForm';
 import SignupForm from '../components/auth/SignupForm';
 import ForgotPasswordForm from '../components/auth/ForgotPasswordForm';
+import InvitationCodeForm from '../components/auth/InvitationCodeForm';
 
 enum AuthMode {
+  INVITATION = 'invitation',
   LOGIN = 'login',
   SIGNUP = 'signup',
   FORGOT_PASSWORD = 'forgot_password',
 }
 
 const AuthPage: React.FC = () => {
-  const [mode, setMode] = useState<AuthMode>(AuthMode.LOGIN);
+  const [mode, setMode] = useState<AuthMode>(AuthMode.INVITATION);
+
+  const handleInvitationCode = (code: string) => {
+    console.log('Invitation code:', code);
+    // Here you would typically validate the invitation code
+    // For now, we'll just proceed to login
+    setMode(AuthMode.LOGIN);
+  };
 
   const handleLogin = (email: string, password: string, rememberMe: boolean) => {
     console.log('Login with:', { email, password, rememberMe });
@@ -33,6 +42,16 @@ const AuthPage: React.FC = () => {
 
   const renderForm = () => {
     switch (mode) {
+      case AuthMode.INVITATION:
+        return (
+          <AuthCard 
+            title="Join BlueJay" 
+            description="Enter your invitation code to continue"
+          >
+            <InvitationCodeForm onSubmit={handleInvitationCode} />
+          </AuthCard>
+        );
+
       case AuthMode.LOGIN:
         return (
           <AuthCard 
