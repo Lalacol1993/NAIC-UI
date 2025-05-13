@@ -5,6 +5,7 @@ import LoginForm from '../components/auth/LoginForm';
 import SignupForm from '../components/auth/SignupForm';
 import ForgotPasswordForm from '../components/auth/ForgotPasswordForm';
 import InvitationCodeForm from '../components/auth/InvitationCodeForm';
+import bluejayLogo from '../assets/bluejay_logo.png';
 
 enum AuthMode {
   INVITATION = 'invitation',
@@ -47,6 +48,7 @@ const AuthPage: React.FC = () => {
           <AuthCard 
             title="Join BlueJay" 
             description="Enter your invitation code to continue"
+            logo={bluejayLogo}
           >
             <InvitationCodeForm onSubmit={handleInvitationCode} />
           </AuthCard>
@@ -57,6 +59,7 @@ const AuthPage: React.FC = () => {
           <AuthCard 
             title="Welcome back" 
             description="Sign in to your account to continue"
+            logo={bluejayLogo}
           >
             <LoginForm 
               onSubmit={handleLogin} 
@@ -79,6 +82,7 @@ const AuthPage: React.FC = () => {
           <AuthCard 
             title="Create an account" 
             description="Join BlueJay to connect with your audience"
+            logo={bluejayLogo}
           >
             <SignupForm onSubmit={handleSignup} />
             <p className="mt-6 text-center text-sm text-gray-600">

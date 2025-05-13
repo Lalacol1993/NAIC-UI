@@ -7,6 +7,7 @@ interface AuthCardProps {
   description: string;
   showBackButton?: boolean;
   onBack?: () => void;
+  logo?: string;
 }
 
 const AuthCard: React.FC<AuthCardProps> = ({
@@ -15,10 +16,11 @@ const AuthCard: React.FC<AuthCardProps> = ({
   description,
   showBackButton = false,
   onBack,
+  logo,
 }) => {
   return (
     <div className="w-full max-w-md p-8 bg-white rounded-2xl shadow-lg border border-gray-100">
-      <div className="mb-6">
+      <div className="mb-6 text-center">
         {showBackButton && (
           <button 
             onClick={onBack}
@@ -26,6 +28,9 @@ const AuthCard: React.FC<AuthCardProps> = ({
           >
             <ChevronLeft size={20} />
           </button>
+        )}
+        {logo && (
+          <img src={logo} alt="Logo" className="mx-auto mb-4 w-24 h-24 object-contain" />
         )}
         <h1 className="text-2xl font-bold text-gray-900">{title}</h1>
         <p className="mt-2 text-gray-600">{description}</p>
