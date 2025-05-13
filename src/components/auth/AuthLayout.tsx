@@ -14,7 +14,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
         <div className="relative z-10">
           <div className="flex items-center">
             <img src={bluejayLogo} alt="BlueJay Logo" className="h-10 w-10 object-contain bg-white rounded" />
-            <span className="ml-2 text-white text-2xl font-bold">BlueJay</span>
+            <span className="ml-2 text-white text-2xl font-bold">BlueJay²</span>
           </div>
           
           <div className="mt-16 max-w-md">
@@ -36,7 +36,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
         </div>
         
         <div className="relative z-10 text-blue-100 text-sm">
-          &copy; {new Date().getFullYear()} BlueJay. All rights reserved.
+          &copy; {new Date().getFullYear()} BlueJay². All rights reserved.
         </div>
       </div>
       
