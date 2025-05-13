@@ -1,5 +1,6 @@
 import React from 'react';
 import { Twitter } from 'lucide-react';
+import bluejayLogo from '../../assets/bluejay_logo.png';
 
 interface AuthLayoutProps {
   children: React.ReactNode;
@@ -12,7 +13,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
       <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-blue-500 to-blue-700 p-12 flex-col justify-between relative overflow-hidden">
         <div className="relative z-10">
           <div className="flex items-center">
-            <Twitter className="h-8 w-8 text-white" />
+            <img src={bluejayLogo} alt="BlueJay Logo" className="h-10 w-10 object-contain bg-white rounded" />
             <span className="ml-2 text-white text-2xl font-bold">BlueJay</span>
           </div>
           
