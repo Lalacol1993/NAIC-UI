@@ -96,11 +96,6 @@ const CameraScannerModal: React.FC<{ open: boolean; onClose: () => void }> = ({ 
 const IdentityVerificationPage: React.FC = () => {
   const [modalOpen, setModalOpen] = useState(true);
 
-  // Prevent modal from closing immediately on page load
-  useEffect(() => {
-    setModalOpen(true);
-  }, []);
-
   return (
     <div>
       <CameraScannerModal open={modalOpen} onClose={() => setModalOpen(false)} />
