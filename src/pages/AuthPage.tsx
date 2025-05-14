@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import AuthLayout from '../components/auth/AuthLayout';
 import AuthCard from '../components/auth/AuthCard';
 import LoginForm from '../components/auth/LoginForm';
@@ -16,6 +17,7 @@ enum AuthMode {
 
 const AuthPage: React.FC = () => {
   const [mode, setMode] = useState<AuthMode>(AuthMode.INVITATION);
+  const navigate = useNavigate();
 
   const handleInvitationCode = (code: string) => {
     console.log('Invitation code:', code);
@@ -33,7 +35,7 @@ const AuthPage: React.FC = () => {
   const handleSignup = (name: string, email: string, password: string) => {
     console.log('Signup with:', { name, email, password });
     // Implement actual signup logic here
-    alert(`Signup attempt for: ${name} (${email})`);
+    navigate('/verify-identity');
   };
 
   const handleForgotPassword = (email: string) => {
