@@ -55,60 +55,79 @@ const CameraScannerModal: React.FC<{ open: boolean; onClose: () => void }> = ({ 
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70">
-      <div className="relative bg-black rounded-xl shadow-lg w-full max-w-md h-[70vh] flex flex-col items-center justify-center">
-        <button onClick={onClose} className="absolute top-4 right-4 text-white text-2xl font-bold z-10">&times;</button>
-        <div className="relative w-full h-full flex flex-col items-center justify-center">
-          {!captured ? (
-            <>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-95">
+      <div className="relative w-full max-w-md h-[95vh] flex flex-col items-center justify-between">
+        {/* Top Bar */}
+        <div className="flex items-center justify-between w-full px-4 pt-4">
+          <button className="text-white text-2xl font-bold" aria-label="Back">
+            <svg width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
+          </button>
+          <div className="bg-neutral-800 text-white text-sm px-4 py-1 rounded-full flex items-center gap-2">
+            <span className="w-2 h-2 bg-red-500 rounded-full inline-block"></span> Autocapture on
+          </div>
+          <button onClick={onClose} className="text-white text-2xl font-bold" aria-label="Close">&times;</button>
+        </div>
+        {/* Instruction Banner */}
+        <div className="w-full flex justify-center mt-4">
+          <div className="bg-neutral-800 text-white text-center text-base rounded-lg px-4 py-3 max-w-xs">
+            Take a clear photo of your entire passport portrait page.
+          </div>
+        </div>
+        {/* Scan Area */}
+        <div className="flex flex-col items-center w-full mt-6">
+          <div className="relative w-[340px] h-[240px] rounded-2xl border-4 border-white" style={{boxShadow: '0 0 0 4px #222'}}>
+            {/* Video feed */}
+            {!captured && (
               <video
                 ref={videoRef}
                 autoPlay
                 playsInline
-                className="rounded-lg w-full h-full object-cover"
-                style={{ maxHeight: '60vh' }}
+                className="absolute top-0 left-0 w-full h-full object-cover rounded-2xl"
+                style={{ zIndex: 1 }}
               />
-              {/* Passport SVG overlay */}
-              <svg
-                className="absolute pointer-events-none"
-                style={{
-                  top: '15%',
-                  left: '10%',
-                  width: '80%',
-                  height: '60%',
-                  position: 'absolute',
-                }}
-                viewBox="0 0 400 250"
-                width="100%"
-                height="100%"
-              >
-                {/* Outer rounded rectangle for passport */}
-                <rect x="5" y="5" width="390" height="240" rx="20" fill="none" stroke="#6366f1" strokeWidth="6" strokeDasharray="16 8" />
-                {/* Photo cutout (simulated) */}
-                <rect x="30" y="40" width="70" height="90" rx="10" fill="none" stroke="#6366f1" strokeWidth="4" strokeDasharray="6 4" />
-                {/* Optional: Add text or lines to simulate passport details */}
-                <rect x="120" y="40" width="240" height="20" rx="4" fill="none" stroke="#6366f1" strokeWidth="2" strokeDasharray="4 4" />
-                <rect x="120" y="70" width="240" height="15" rx="3" fill="none" stroke="#6366f1" strokeWidth="2" strokeDasharray="4 4" />
-                <rect x="120" y="95" width="240" height="15" rx="3" fill="none" stroke="#6366f1" strokeWidth="2" strokeDasharray="4 4" />
-                <rect x="120" y="120" width="240" height="15" rx="3" fill="none" stroke="#6366f1" strokeWidth="2" strokeDasharray="4 4" />
-                {/* Bottom MRZ lines */}
-                <rect x="30" y="200" width="340" height="10" rx="2" fill="none" stroke="#6366f1" strokeWidth="2" strokeDasharray="2 2" />
-                <rect x="30" y="215" width="340" height="10" rx="2" fill="none" stroke="#6366f1" strokeWidth="2" strokeDasharray="2 2" />
-              </svg>
-              <div className="absolute bottom-4 left-0 w-full flex justify-center gap-4 z-10">
-                <button onClick={handleFlipCamera} className="bg-gray-800 text-white px-4 py-2 rounded-lg font-semibold">Flip Camera</button>
-                <button onClick={handleCapture} className="bg-indigo-500 text-white px-4 py-2 rounded-lg font-semibold">Capture</button>
-              </div>
-            </>
-          ) : (
-            <div className="flex flex-col items-center w-full">
-              <img src={captured} alt="Captured" className="rounded-lg w-full object-contain" style={{ maxHeight: '60vh' }} />
-              <button onClick={handleRetake} className="mt-4 bg-gray-800 text-white px-4 py-2 rounded-lg font-semibold">Retake</button>
-            </div>
-          )}
-          <canvas ref={canvasRef} style={{ display: 'none' }} />
+            )}
+            {/* Overlay SVG */}
+            <svg className="absolute top-0 left-0 w-full h-full" viewBox="0 0 340 240" style={{zIndex: 2}}>
+              {/* Avatar outline */}
+              <circle cx="255" cy="80" r="38" stroke="#fff" strokeWidth="3" fill="none" />
+              <path d="M217 140c0-20 76-20 76 0" stroke="#fff" strokeWidth="3" fill="none" />
+              {/* Chevrons for MRZ */}
+              <g>
+                {Array.from({length: 18}).map((_, i) => (
+                  <polyline key={i} points={`${10 + i*18},210 ${18 + i*18},215 ${10 + i*18},220`} fill="none" stroke="#fff" strokeWidth="3" />
+                ))}
+              </g>
+            </svg>
+            {/* Canvas for capture */}
+            <canvas ref={canvasRef} style={{ display: 'none' }} />
+            {/* Captured image */}
+            {captured && (
+              <img src={captured} alt="Captured" className="absolute top-0 left-0 w-full h-full object-contain rounded-2xl" style={{zIndex: 3}} />
+            )}
+          </div>
+          {/* Label Card */}
+          <div className="flex items-center bg-neutral-100 rounded-b-2xl w-[340px] py-3 px-4 border-t border-gray-200">
+            <svg width="32" height="32" fill="none" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="3" stroke="#3b82f6" strokeWidth="2" fill="#e0e7ef"/><rect x="5" y="7" width="5" height="6" rx="2" fill="#fff" stroke="#3b82f6" strokeWidth="1.5"/><rect x="12" y="9" width="7" height="2" rx="1" fill="#fff"/><rect x="12" y="13" width="7" height="2" rx="1" fill="#fff"/></svg>
+            <span className="ml-3 text-gray-800 font-medium text-base">Passport Portrait Page</span>
+          </div>
         </div>
-        <div className="text-white text-center mt-4">Align your passport within the frame</div>
+        {/* Capture Tips */}
+        <div className="flex flex-col items-center mt-4">
+          <div className="flex items-center text-white text-sm gap-2">
+            <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r="1"/></svg>
+            <span>Capture Tips</span>
+          </div>
+        </div>
+        {/* Take Photo Button */}
+        <div className="w-full flex justify-center mb-6 mt-4">
+          {!captured ? (
+            <button onClick={handleCapture} className="w-[90%] py-4 bg-white text-black text-lg font-semibold rounded-full shadow-md">Take photo</button>
+          ) : (
+            <button onClick={handleRetake} className="w-[90%] py-4 bg-white text-black text-lg font-semibold rounded-full shadow-md">Retake</button>
+          )}
+        </div>
+        {/* Flip Camera Button (optional, bottom right) */}
+        <button onClick={handleFlipCamera} className="absolute bottom-8 right-8 bg-neutral-800 text-white px-4 py-2 rounded-lg font-semibold opacity-80">Flip Camera</button>
       </div>
     </div>
   );
