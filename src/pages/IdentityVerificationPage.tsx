@@ -99,17 +99,7 @@ const IdentityVerificationPage: React.FC = () => {
   return (
     <div>
       <CameraScannerModal open={modalOpen} onClose={() => setModalOpen(false)} />
-      {!modalOpen && (
-        <div className="flex flex-col items-center justify-center h-screen">
-          <p className="text-lg mb-4">Scanner closed. Please reopen to continue verification.</p>
-          <button
-            onClick={() => setModalOpen(true)}
-            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-          >
-            Reopen Scanner
-          </button>
-        </div>
-      )}
+      {/* Add more page content here if needed */}
     </div>
   );
 };
