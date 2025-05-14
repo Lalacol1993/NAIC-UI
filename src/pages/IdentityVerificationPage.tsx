@@ -2,11 +2,14 @@ import React, { useState, useRef, useEffect } from 'react';
 
 const CameraScannerModal: React.FC<{ open: boolean; onClose: () => void }> = ({ open, onClose }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   const [stream, setStream] = useState<MediaStream | null>(null);
+  const [facingMode, setFacingMode] = useState<'environment' | 'user'>('environment');
+  const [captured, setCaptured] = useState<string | null>(null);
 
   useEffect(() => {
     if (open) {
-      navigator.mediaDevices.getUserMedia({ video: true })
+      navigator.mediaDevices.getUserMedia({ video: { facingMode } })
         .then((mediaStream) => {
           setStream(mediaStream);
           if (videoRef.current) {
@@ -24,7 +27,30 @@ const CameraScannerModal: React.FC<{ open: boolean; onClose: () => void }> = ({ 
         stream.getTracks().forEach(track => track.stop());
       }
     };
-  }, [open]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open, facingMode]);
+
+  const handleCapture = () => {
+    if (videoRef.current && canvasRef.current) {
+      const video = videoRef.current;
+      const canvas = canvasRef.current;
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const ctx = canvas.getContext('2d');
+      if (ctx) {
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        setCaptured(canvas.toDataURL('image/png'));
+      }
+    }
+  };
+
+  const handleFlipCamera = () => {
+    setFacingMode((prev) => (prev === 'environment' ? 'user' : 'environment'));
+  };
+
+  const handleRetake = () => {
+    setCaptured(null);
+  };
 
   if (!open) return null;
 
@@ -32,24 +58,38 @@ const CameraScannerModal: React.FC<{ open: boolean; onClose: () => void }> = ({ 
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70">
       <div className="relative bg-black rounded-xl shadow-lg w-full max-w-md h-[70vh] flex flex-col items-center justify-center">
         <button onClick={onClose} className="absolute top-4 right-4 text-white text-2xl font-bold z-10">&times;</button>
-        <div className="relative w-full h-full flex items-center justify-center">
-          <video
-            ref={videoRef}
-            autoPlay
-            playsInline
-            className="rounded-lg w-full h-full object-cover"
-            style={{ maxHeight: '60vh' }}
-          />
-          {/* Scanning outline overlay */}
-          <div className="absolute border-4 border-indigo-500 rounded-lg pointer-events-none"
-            style={{
-              top: '15%',
-              left: '10%',
-              width: '80%',
-              height: '60%',
-              boxSizing: 'border-box',
-            }}
-          ></div>
+        <div className="relative w-full h-full flex flex-col items-center justify-center">
+          {!captured ? (
+            <>
+              <video
+                ref={videoRef}
+                autoPlay
+                playsInline
+                className="rounded-lg w-full h-full object-cover"
+                style={{ maxHeight: '60vh' }}
+              />
+              {/* Scanning outline overlay */}
+              <div className="absolute border-4 border-indigo-500 rounded-lg pointer-events-none"
+                style={{
+                  top: '15%',
+                  left: '10%',
+                  width: '80%',
+                  height: '60%',
+                  boxSizing: 'border-box',
+                }}
+              ></div>
+              <div className="absolute bottom-4 left-0 w-full flex justify-center gap-4 z-10">
+                <button onClick={handleFlipCamera} className="bg-gray-800 text-white px-4 py-2 rounded-lg font-semibold">Flip Camera</button>
+                <button onClick={handleCapture} className="bg-indigo-500 text-white px-4 py-2 rounded-lg font-semibold">Capture</button>
+              </div>
+            </>
+          ) : (
+            <div className="flex flex-col items-center w-full">
+              <img src={captured} alt="Captured" className="rounded-lg w-full object-contain" style={{ maxHeight: '60vh' }} />
+              <button onClick={handleRetake} className="mt-4 bg-gray-800 text-white px-4 py-2 rounded-lg font-semibold">Retake</button>
+            </div>
+          )}
+          <canvas ref={canvasRef} style={{ display: 'none' }} />
         </div>
         <div className="text-white text-center mt-4">Align your passport within the frame</div>
       </div>
