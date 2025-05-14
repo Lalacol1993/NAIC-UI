@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import passportScanOutline from '../assets/passportscanoutline.svg';
 
 const CameraScannerModal: React.FC<{ open: boolean; onClose: () => void }> = ({ open, onClose }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -86,18 +87,8 @@ const CameraScannerModal: React.FC<{ open: boolean; onClose: () => void }> = ({ 
                 style={{ zIndex: 1 }}
               />
             )}
-            {/* Overlay SVG */}
-            <svg className="absolute top-0 left-0 w-full h-full" viewBox="0 0 340 240" style={{zIndex: 2}}>
-              {/* Avatar outline */}
-              <circle cx="255" cy="80" r="38" stroke="#fff" strokeWidth="3" fill="none" />
-              <path d="M217 140c0-20 76-20 76 0" stroke="#fff" strokeWidth="3" fill="none" />
-              {/* Chevrons for MRZ */}
-              <g>
-                {Array.from({length: 18}).map((_, i) => (
-                  <polyline key={i} points={`${10 + i*18},210 ${18 + i*18},215 ${10 + i*18},220`} fill="none" stroke="#fff" strokeWidth="3" />
-                ))}
-              </g>
-            </svg>
+            {/* Overlay SVG - Passport outline */}
+            <img src={passportScanOutline} alt="Passport Outline" className="absolute inset-0 w-full h-full object-contain" />
             {/* Canvas for capture */}
             <canvas ref={canvasRef} style={{ display: 'none' }} />
             {/* Captured image */}
