@@ -94,46 +94,17 @@ const CameraScannerModal: React.FC<{ open: boolean; onClose: () => void }> = ({ 
 };
 
 const IdentityVerificationPage: React.FC = () => {
-  const [modalOpen, setModalOpen] = useState(false);
-  const [showSelection, setShowSelection] = useState(true);
+  const [modalOpen, setModalOpen] = useState(true);
 
   // Prevent modal from closing immediately on page load
   useEffect(() => {
-    setShowSelection(true);
+    setModalOpen(true);
   }, []);
-
-  const handleSelectPassport = () => {
-    setShowSelection(false);
-    setModalOpen(true);
-  };
-
-  const handleSelectIC = () => {
-    setShowSelection(false);
-    setModalOpen(true);
-  };
 
   return (
     <div>
-      {showSelection ? (
-        <div className="flex flex-col items-center justify-center h-screen">
-          <h2 className="text-2xl font-bold mb-4">Select Identification Type</h2>
-          <button
-            onClick={handleSelectPassport}
-            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 mb-2"
-          >
-            Passport
-          </button>
-          <button
-            onClick={handleSelectIC}
-            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-          >
-            IC
-          </button>
-        </div>
-      ) : (
-        <CameraScannerModal open={modalOpen} onClose={() => setModalOpen(false)} />
-      )}
-      {!modalOpen && !showSelection && (
+      <CameraScannerModal open={modalOpen} onClose={() => setModalOpen(false)} />
+      {!modalOpen && (
         <div className="flex flex-col items-center justify-center h-screen">
           <p className="text-lg mb-4">Scanner closed. Please reopen to continue verification.</p>
           <button
