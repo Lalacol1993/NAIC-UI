@@ -68,16 +68,33 @@ const CameraScannerModal: React.FC<{ open: boolean; onClose: () => void }> = ({ 
                 className="rounded-lg w-full h-full object-cover"
                 style={{ maxHeight: '60vh' }}
               />
-              {/* Scanning outline overlay */}
-              <div className="absolute border-4 border-indigo-500 rounded-lg pointer-events-none"
+              {/* Passport SVG overlay */}
+              <svg
+                className="absolute pointer-events-none"
                 style={{
                   top: '15%',
                   left: '10%',
                   width: '80%',
                   height: '60%',
-                  boxSizing: 'border-box',
+                  position: 'absolute',
                 }}
-              ></div>
+                viewBox="0 0 400 250"
+                width="100%"
+                height="100%"
+              >
+                {/* Outer rounded rectangle for passport */}
+                <rect x="5" y="5" width="390" height="240" rx="20" fill="none" stroke="#6366f1" strokeWidth="6" strokeDasharray="16 8" />
+                {/* Photo cutout (simulated) */}
+                <rect x="30" y="40" width="70" height="90" rx="10" fill="none" stroke="#6366f1" strokeWidth="4" strokeDasharray="6 4" />
+                {/* Optional: Add text or lines to simulate passport details */}
+                <rect x="120" y="40" width="240" height="20" rx="4" fill="none" stroke="#6366f1" strokeWidth="2" strokeDasharray="4 4" />
+                <rect x="120" y="70" width="240" height="15" rx="3" fill="none" stroke="#6366f1" strokeWidth="2" strokeDasharray="4 4" />
+                <rect x="120" y="95" width="240" height="15" rx="3" fill="none" stroke="#6366f1" strokeWidth="2" strokeDasharray="4 4" />
+                <rect x="120" y="120" width="240" height="15" rx="3" fill="none" stroke="#6366f1" strokeWidth="2" strokeDasharray="4 4" />
+                {/* Bottom MRZ lines */}
+                <rect x="30" y="200" width="340" height="10" rx="2" fill="none" stroke="#6366f1" strokeWidth="2" strokeDasharray="2 2" />
+                <rect x="30" y="215" width="340" height="10" rx="2" fill="none" stroke="#6366f1" strokeWidth="2" strokeDasharray="2 2" />
+              </svg>
               <div className="absolute bottom-4 left-0 w-full flex justify-center gap-4 z-10">
                 <button onClick={handleFlipCamera} className="bg-gray-800 text-white px-4 py-2 rounded-lg font-semibold">Flip Camera</button>
                 <button onClick={handleCapture} className="bg-indigo-500 text-white px-4 py-2 rounded-lg font-semibold">Capture</button>
