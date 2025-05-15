@@ -88,7 +88,12 @@ const CameraScannerModal: React.FC<{ open: boolean; onClose: () => void }> = ({ 
               />
             )}
             {/* Overlay SVG - Passport outline */}
-            <img src={passportScanOutline} alt="Passport Outline" className="absolute inset-0 w-full h-full object-contain" />
+            <img 
+              src={passportScanOutline} 
+              alt="Passport Outline" 
+              className="absolute inset-0 w-full h-full object-contain pointer-events-none" 
+              style={{ zIndex: 2, mixBlendMode: 'overlay' }}
+            />
             {/* Canvas for capture */}
             <canvas ref={canvasRef} style={{ display: 'none' }} />
             {/* Captured image */}
