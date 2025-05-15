@@ -35,11 +35,40 @@ const CameraScannerModal: React.FC<{ open: boolean; onClose: () => void }> = ({ 
     if (videoRef.current && canvasRef.current) {
       const video = videoRef.current;
       const canvas = canvasRef.current;
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
+      
+      // Set canvas dimensions to match the frame size (340x240)
+      canvas.width = 340;
+      canvas.height = 240;
+      
       const ctx = canvas.getContext('2d');
       if (ctx) {
-        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        // Calculate the scaling factor to maintain aspect ratio
+        const videoAspectRatio = video.videoWidth / video.videoHeight;
+        const frameAspectRatio = canvas.width / canvas.height;
+        
+        let sourceX = 0;
+        let sourceY = 0;
+        let sourceWidth = video.videoWidth;
+        let sourceHeight = video.videoHeight;
+        
+        // Adjust source dimensions to maintain aspect ratio
+        if (videoAspectRatio > frameAspectRatio) {
+          // Video is wider than frame
+          sourceWidth = video.videoHeight * frameAspectRatio;
+          sourceX = (video.videoWidth - sourceWidth) / 2;
+        } else {
+          // Video is taller than frame
+          sourceHeight = video.videoWidth / frameAspectRatio;
+          sourceY = (video.videoHeight - sourceHeight) / 2;
+        }
+        
+        // Draw the cropped image
+        ctx.drawImage(
+          video,
+          sourceX, sourceY, sourceWidth, sourceHeight,  // Source rectangle
+          0, 0, canvas.width, canvas.height            // Destination rectangle
+        );
+        
         setCaptured(canvas.toDataURL('image/png'));
       }
     }
