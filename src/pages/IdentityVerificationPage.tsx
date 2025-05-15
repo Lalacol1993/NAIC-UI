@@ -63,9 +63,6 @@ const CameraScannerModal: React.FC<{ open: boolean; onClose: () => void }> = ({ 
           <button className="text-white text-2xl font-bold" aria-label="Back">
             <svg width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
           </button>
-          <div className="bg-neutral-800 text-white text-sm px-4 py-1 rounded-full flex items-center gap-2">
-            <span className="w-2 h-2 bg-red-500 rounded-full inline-block"></span> Autocapture on
-          </div>
           <button onClick={onClose} className="text-white text-2xl font-bold" aria-label="Close">&times;</button>
         </div>
         {/* Instruction Banner */}
@@ -88,7 +85,12 @@ const CameraScannerModal: React.FC<{ open: boolean; onClose: () => void }> = ({ 
               />
             )}
             {/* Overlay SVG - Passport outline */}
-            <img src={passportScanOutline} alt="Passport Outline" className="absolute inset-0 w-full h-full object-contain" />
+            <img 
+              src={passportScanOutline} 
+              alt="Passport Outline" 
+              className="absolute inset-0 w-full h-full object-contain pointer-events-none" 
+              style={{ zIndex: 10, opacity: 0.9 }}
+            />
             {/* Canvas for capture */}
             <canvas ref={canvasRef} style={{ display: 'none' }} />
             {/* Captured image */}
@@ -100,13 +102,6 @@ const CameraScannerModal: React.FC<{ open: boolean; onClose: () => void }> = ({ 
           <div className="flex items-center bg-neutral-100 rounded-b-2xl w-[340px] py-3 px-4 border-t border-gray-200">
             <svg width="32" height="32" fill="none" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="3" stroke="#3b82f6" strokeWidth="2" fill="#e0e7ef"/><rect x="5" y="7" width="5" height="6" rx="2" fill="#fff" stroke="#3b82f6" strokeWidth="1.5"/><rect x="12" y="9" width="7" height="2" rx="1" fill="#fff"/><rect x="12" y="13" width="7" height="2" rx="1" fill="#fff"/></svg>
             <span className="ml-3 text-gray-800 font-medium text-base">Passport Portrait Page</span>
-          </div>
-        </div>
-        {/* Capture Tips */}
-        <div className="flex flex-col items-center mt-4">
-          <div className="flex items-center text-white text-sm gap-2">
-            <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r="1"/></svg>
-            <span>Capture Tips</span>
           </div>
         </div>
         {/* Take Photo Button */}
