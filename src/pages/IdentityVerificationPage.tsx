@@ -141,8 +141,12 @@ const CameraScannerModal: React.FC<{ open: boolean; onClose: () => void }> = ({ 
             <button onClick={handleRetake} className="w-[90%] py-4 bg-white text-black text-lg font-semibold rounded-full shadow-md">Retake</button>
           )}
         </div>
-        {/* Flip Camera Button (optional, bottom right) */}
-        <button onClick={handleFlipCamera} className="absolute bottom-8 right-8 bg-neutral-800 text-white px-4 py-2 rounded-lg font-semibold opacity-80">Flip Camera</button>
+        {/* Bottom right button - Flip Camera or Done */}
+        {!captured ? (
+          <button onClick={handleFlipCamera} className="absolute bottom-8 right-8 bg-neutral-800 text-white px-4 py-2 rounded-lg font-semibold opacity-80">Flip Camera</button>
+        ) : (
+          <button onClick={onClose} className="absolute bottom-8 right-8 bg-neutral-800 text-white px-4 py-2 rounded-lg font-semibold opacity-80">Done</button>
+        )}
       </div>
     </div>
   );
