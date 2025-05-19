@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Twitter, Github } from 'lucide-react';
 import FormInput from './FormInput';
 import SocialButton from './SocialButton';
@@ -15,6 +15,17 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit, onForgotPassword }) => 
   const [rememberMe, setRememberMe] = useState(false);
   const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
 
+  useEffect(() => {
+    // Check for saved credentials on component mount
+    const savedEmail = localStorage.getItem('rememberedEmail');
+    const savedPassword = localStorage.getItem('rememberedPassword');
+    if (savedEmail && savedPassword) {
+      setEmail(savedEmail);
+      setPassword(savedPassword);
+      setRememberMe(true);
+    }
+  }, []);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -24,11 +35,20 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit, onForgotPassword }) => 
     else if (!/\S+@\S+\.\S+/.test(email)) newErrors.email = 'Email is invalid';
     
     if (!password) newErrors.password = 'Password is required';
-    else if (password.length < 6) newErrors.password = 'Password must be at least 6 characters';
+    else if (password.length < 8) newErrors.password = 'Password must be at least 8 characters';
     
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
+    }
+
+    // Handle remember me
+    if (rememberMe) {
+      localStorage.setItem('rememberedEmail', email);
+      localStorage.setItem('rememberedPassword', password);
+    } else {
+      localStorage.removeItem('rememberedEmail');
+      localStorage.removeItem('rememberedPassword');
     }
     
     onSubmit(email, password, rememberMe);
@@ -44,7 +64,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit, onForgotPassword }) => 
       <form onSubmit={handleSubmit} className="space-y-5">
         <FormInput
           id="email"
-          label="Email"
+          label="Email address"
           type="email"
           placeholder="you@example.com"
           value={email}
@@ -57,26 +77,32 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit, onForgotPassword }) => 
           id="password"
           label="Password"
           type={showPassword ? 'text' : 'password'}
-          placeholder="••••••••"
+          placeholder="Enter your password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           error={errors.password}
           required
-          showPasswordToggle
-          isPassword={!showPassword}
-          onTogglePassword={() => setShowPassword(!showPassword)}
-        />
+          minLength={8}
+        >
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-500"
+          >
+            {showPassword ? 'Hide' : 'Show'}
+          </button>
+        </FormInput>
         
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             <input
               id="remember-me"
               type="checkbox"
-              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
               checked={rememberMe}
               onChange={(e) => setRememberMe(e.target.checked)}
+              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
             />
-            <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700">
+            <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
               Remember me
             </label>
           </div>

@@ -1,19 +1,16 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import AuthPage from './pages/AuthPage';
-import IdentityVerificationPage from './pages/IdentityVerificationPage';
-import HomePage from './pages/HomePage';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { UserProvider } from './contexts/UserContext';
+import AppRoutes from './routes';
 
-function App() {
+const App: React.FC = () => {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<AuthPage />} />
-        <Route path="/verify-identity" element={<IdentityVerificationPage />} />
-        <Route path="/home" element={<HomePage />} />
-      </Routes>
+      <UserProvider>
+        <AppRoutes />
+      </UserProvider>
     </Router>
   );
-}
+};
 
 export default App;

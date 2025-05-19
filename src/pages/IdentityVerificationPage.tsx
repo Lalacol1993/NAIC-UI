@@ -99,7 +99,7 @@ const CameraScannerModal: React.FC<CameraScannerModalProps> = ({ open, onClose, 
       setCaptured(null);
     } else {
       onClose();
-      navigate('/'); // Navigate to home screen after completion
+      navigate('/home'); // Navigate to home page after completion
     }
   };
 

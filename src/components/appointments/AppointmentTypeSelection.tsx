@@ -1,5 +1,5 @@
 import React from 'react';
-import { Video, User } from 'lucide-react';
+import { Calendar, Video } from 'lucide-react';
 
 interface AppointmentTypeSelectionProps {
   onSelect: (type: 'physical' | 'online') => void;
@@ -7,30 +7,28 @@ interface AppointmentTypeSelectionProps {
 
 const AppointmentTypeSelection: React.FC<AppointmentTypeSelectionProps> = ({ onSelect }) => {
   return (
-    <div className="fixed inset-0 flex flex-col">
+    <div className="fixed inset-0 flex">
+      {/* Physical Appointment Button */}
       <button
         onClick={() => onSelect('physical')}
-        className="flex-1 bg-white flex items-center justify-center space-x-4 hover:bg-gray-50 transition-colors"
+        className="flex-1 bg-white flex flex-col items-center justify-center space-y-4 hover:bg-gray-50 transition-colors border-r border-gray-200"
       >
-        <div className="h-16 w-16 bg-blue-100 rounded-full flex items-center justify-center">
-          <User size={32} className="text-blue-600" />
-        </div>
-        <div className="text-left">
-          <h2 className="text-2xl font-semibold text-gray-900">Physical Appointment</h2>
-          <p className="text-gray-600">Visit our clinic in person</p>
+        <Calendar className="w-12 h-12 text-blue-600" />
+        <div className="text-center">
+          <h3 className="text-xl font-semibold text-gray-900">Physical Appointment</h3>
+          <p className="text-gray-600 mt-1">Visit our clinic in person</p>
         </div>
       </button>
 
+      {/* Online Appointment Button */}
       <button
         onClick={() => onSelect('online')}
-        className="flex-1 bg-white flex items-center justify-center space-x-4 hover:bg-gray-50 transition-colors border-t border-gray-100"
+        className="flex-1 bg-white flex flex-col items-center justify-center space-y-4 hover:bg-gray-50 transition-colors"
       >
-        <div className="h-16 w-16 bg-green-100 rounded-full flex items-center justify-center">
-          <Video size={32} className="text-green-600" />
-        </div>
-        <div className="text-left">
-          <h2 className="text-2xl font-semibold text-gray-900">Online Appointment</h2>
-          <p className="text-gray-600">Video consultation from home</p>
+        <Video className="w-12 h-12 text-blue-600" />
+        <div className="text-center">
+          <h3 className="text-xl font-semibold text-gray-900">Online Appointment</h3>
+          <p className="text-gray-600 mt-1">Video consultation from anywhere</p>
         </div>
       </button>
     </div>

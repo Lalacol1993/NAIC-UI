@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Home, Calendar, Camera, ChevronRight, Clock, Dumbbell } from 'lucide-react';
 import AppointmentTypeSelection from '../components/appointments/AppointmentTypeSelection';
 import AppointmentCalendar from '../components/appointments/AppointmentCalendar';
 import TimeSelection from '../components/appointments/TimeSelection';
 import AppointmentConfirmation from '../components/appointments/AppointmentConfirmation';
 import ScanSelection from '../components/scan/ScanSelection';
+import { UserContext } from '../contexts/UserContext';
 
 type AppointmentStep = 'type' | 'calendar' | 'time' | 'confirmation';
 type ScanType = 'lidar' | 'camera';
 
 const HomePage: React.FC = () => {
+  const { user } = useContext(UserContext);
   const [activeTab, setActiveTab] = useState<'home' | 'appointments' | 'scan'>('home');
   const [appointmentStep, setAppointmentStep] = useState<AppointmentStep | null>(null);
   const [appointmentType, setAppointmentType] = useState<'physical' | 'online' | null>(null);
@@ -96,7 +98,9 @@ const HomePage: React.FC = () => {
 
     return (
       <div className="flex-1 p-4">
-        <h1 className="text-2xl font-bold mb-2">Hi, John</h1>
+        <h1 className="text-2xl font-bold mb-2">
+          hi, {user?.name || 'there'}
+        </h1>
         <p className="text-gray-600 text-sm mb-6">Let's work on your recovery today</p>
 
         {/* Next Appointment Section */}
