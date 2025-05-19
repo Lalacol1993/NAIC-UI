@@ -128,3 +128,5 @@ const AuthPage: React.FC = () => {
     </AuthLayout>
   );
 };
+
+export default AuthPage
