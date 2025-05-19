@@ -1,5 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import passportScanOutline from '../assets/passportscanoutline.svg';
+import mykadFrontOutline from '../assets/IDoutlinefront.svg';
+import mykadBackOutline from '../assets/IDoutlineback.svg';
+import { useNavigate } from 'react-router-dom';
 
 interface CameraScannerModalProps {
   open: boolean;
@@ -14,6 +17,7 @@ const CameraScannerModal: React.FC<CameraScannerModalProps> = ({ open, onClose, 
   const [facingMode, setFacingMode] = useState<'environment' | 'user'>('environment');
   const [captured, setCaptured] = useState<string | null>(null);
   const [side, setSide] = useState<'front' | 'back'>('front');
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (open) {
@@ -95,6 +99,7 @@ const CameraScannerModal: React.FC<CameraScannerModalProps> = ({ open, onClose, 
       setCaptured(null);
     } else {
       onClose();
+      navigate('/'); // Navigate to home screen after completion
     }
   };
 
@@ -132,11 +137,27 @@ const CameraScannerModal: React.FC<CameraScannerModalProps> = ({ open, onClose, 
                 style={{ zIndex: 1 }}
               />
             )}
-            {/* Overlay SVG - Passport outline */}
+            {/* Overlay SVG - Document outline */}
             {type === 'passport' && (
               <img 
                 src={passportScanOutline} 
                 alt="Passport Outline" 
+                className="absolute inset-0 w-full h-full object-contain pointer-events-none" 
+                style={{ zIndex: 10, opacity: 0.9 }}
+              />
+            )}
+            {type === 'mykad' && side === 'front' && (
+              <img 
+                src={mykadFrontOutline} 
+                alt="MyKad Front Outline" 
+                className="absolute inset-0 w-full h-full object-contain pointer-events-none" 
+                style={{ zIndex: 10, opacity: 0.9 }}
+              />
+            )}
+            {type === 'mykad' && side === 'back' && (
+              <img 
+                src={mykadBackOutline} 
+                alt="MyKad Back Outline" 
                 className="absolute inset-0 w-full h-full object-contain pointer-events-none" 
                 style={{ zIndex: 10, opacity: 0.9 }}
               />

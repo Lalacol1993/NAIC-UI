@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Camera, Scan, ArrowLeft } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 interface ScanSelectionProps {
   onSelect: (type: 'lidar' | 'camera') => void;
@@ -7,6 +8,7 @@ interface ScanSelectionProps {
 
 const ScanSelection: React.FC<ScanSelectionProps> = ({ onSelect }) => {
   const [selectedType, setSelectedType] = useState<'lidar' | 'camera' | null>(null);
+  const navigate = useNavigate();
 
   const handleTypeSelect = (type: 'lidar' | 'camera') => {
     setSelectedType(type);
@@ -107,7 +109,7 @@ const ScanSelection: React.FC<ScanSelectionProps> = ({ onSelect }) => {
   }
 
   return (
-    <div className="fixed inset-0 flex flex-col">
+    <div className="fixed inset-0 flex">
       <button
         onClick={() => handleTypeSelect('lidar')}
         className="flex-1 bg-white flex items-center justify-center space-x-4 hover:bg-gray-50 transition-colors"
@@ -123,7 +125,7 @@ const ScanSelection: React.FC<ScanSelectionProps> = ({ onSelect }) => {
 
       <button
         onClick={() => handleTypeSelect('camera')}
-        className="flex-1 bg-white flex items-center justify-center space-x-4 hover:bg-gray-50 transition-colors border-t border-gray-100"
+        className="flex-1 bg-white flex items-center justify-center space-x-4 hover:bg-gray-50 transition-colors border-l border-gray-100"
       >
         <div className="h-16 w-16 bg-blue-100 rounded-full flex items-center justify-center">
           <Camera size={32} className="text-blue-600" />
