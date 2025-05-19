@@ -51,6 +51,23 @@ const HomePage: React.FC = () => {
     setActiveTab('home');
   };
 
+  const handleHomeClick = () => {
+    setActiveTab('home');
+    setAppointmentStep(null);
+    setShowScanSelection(false);
+  };
+
+  const handleAppointmentsClick = () => {
+    setActiveTab('appointments');
+    setAppointmentStep('type');
+    setShowScanSelection(false);
+  };
+
+  const handleScanClick = () => {
+    setShowScanSelection(true);
+    setAppointmentStep(null);
+  };
+
   const renderContent = () => {
     if (showScanSelection) {
       return <ScanSelection onSelect={handleScanTypeSelect} />;
@@ -88,10 +105,7 @@ const HomePage: React.FC = () => {
             <h2 className="font-semibold text-gray-800">Next Appointment</h2>
             <button 
               className="text-blue-600 text-sm font-medium flex items-center"
-              onClick={() => {
-                setActiveTab('appointments');
-                setAppointmentStep('type');
-              }}
+              onClick={handleAppointmentsClick}
             >
               View All
               <ChevronRight size={16} className="ml-1" />
@@ -174,7 +188,7 @@ const HomePage: React.FC = () => {
       {/* Bottom Navigation Bar */}
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 h-16 flex items-center justify-between px-4">
         <button 
-          onClick={() => setActiveTab('home')}
+          onClick={handleHomeClick}
           className={`flex flex-col items-center justify-center transition-colors ${
             activeTab === 'home' ? 'text-blue-600' : 'text-gray-600 hover:text-blue-600'
           }`}
@@ -184,18 +198,17 @@ const HomePage: React.FC = () => {
         </button>
         
         {/* Centered Scan Button */}
-        <button 
-          onClick={() => setShowScanSelection(true)}
-          className="relative -top-6 bg-blue-600 w-16 h-16 rounded-full flex items-center justify-center text-white shadow-lg hover:bg-blue-700 transition-colors"
-        >
-          <Camera size={28} />
-        </button>
+        <div className="flex-1 flex justify-center">
+          <button 
+            onClick={handleScanClick}
+            className="relative -top-6 bg-blue-600 w-16 h-16 rounded-full flex items-center justify-center text-white shadow-lg hover:bg-blue-700 transition-colors"
+          >
+            <Camera size={28} />
+          </button>
+        </div>
         
         <button 
-          onClick={() => {
-            setActiveTab('appointments');
-            setAppointmentStep('type');
-          }}
+          onClick={handleAppointmentsClick}
           className={`flex flex-col items-center justify-center transition-colors ${
             activeTab === 'appointments' ? 'text-blue-600' : 'text-gray-600 hover:text-blue-600'
           }`}
