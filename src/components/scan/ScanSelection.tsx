@@ -107,36 +107,32 @@ const ScanSelection: React.FC<ScanSelectionProps> = ({ onSelect }) => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="h-1/2">
-        <button
-          onClick={() => handleTypeSelect('lidar')}
-          className="w-full h-full bg-white flex items-center justify-center space-x-4 hover:bg-gray-50 transition-colors"
-        >
-          <div className="h-16 w-16 bg-purple-100 rounded-full flex items-center justify-center">
-            <Scan size={32} className="text-purple-600" />
-          </div>
-          <div className="text-left">
-            <h2 className="text-2xl font-semibold text-gray-900">LiDAR Scan</h2>
-            <p className="text-gray-600">3D depth sensing for precise measurements</p>
-          </div>
-        </button>
-      </div>
+    <div className="fixed inset-0 flex flex-col">
+      <button
+        onClick={() => handleTypeSelect('lidar')}
+        className="flex-1 bg-white flex items-center justify-center space-x-4 hover:bg-gray-50 transition-colors"
+      >
+        <div className="h-16 w-16 bg-purple-100 rounded-full flex items-center justify-center">
+          <Scan size={32} className="text-purple-600" />
+        </div>
+        <div className="text-left">
+          <h2 className="text-2xl font-semibold text-gray-900">LiDAR Scan</h2>
+          <p className="text-gray-600">3D depth sensing for precise measurements</p>
+        </div>
+      </button>
 
-      <div className="h-1/2">
-        <button
-          onClick={() => handleTypeSelect('camera')}
-          className="w-full h-full bg-white flex items-center justify-center space-x-4 hover:bg-gray-50 transition-colors"
-        >
-          <div className="h-16 w-16 bg-blue-100 rounded-full flex items-center justify-center">
-            <Camera size={32} className="text-blue-600" />
-          </div>
-          <div className="text-left">
-            <h2 className="text-2xl font-semibold text-gray-900">Camera Scan</h2>
-            <p className="text-gray-600">Standard photo capture for visual assessment</p>
-          </div>
-        </button>
-      </div>
+      <button
+        onClick={() => handleTypeSelect('camera')}
+        className="flex-1 bg-white flex items-center justify-center space-x-4 hover:bg-gray-50 transition-colors border-t border-gray-100"
+      >
+        <div className="h-16 w-16 bg-blue-100 rounded-full flex items-center justify-center">
+          <Camera size={32} className="text-blue-600" />
+        </div>
+        <div className="text-left">
+          <h2 className="text-2xl font-semibold text-gray-900">Camera Scan</h2>
+          <p className="text-gray-600">Standard photo capture for visual assessment</p>
+        </div>
+      </button>
     </div>
   );
 };

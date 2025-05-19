@@ -67,6 +67,10 @@ const AppointmentConfirmation: React.FC<AppointmentConfirmationProps> = ({
         </div>
       </div>
 
+      <p className="text-gray-600 text-center mb-6">
+        Please review your appointment details carefully before confirming. You can edit details if needed.
+      </p>
+
       <div className="space-y-3">
         <button
           onClick={onConfirm}

@@ -1,12 +1,19 @@
 import React, { useState, useRef, useEffect } from 'react';
 import passportScanOutline from '../assets/passportscanoutline.svg';
 
-const CameraScannerModal: React.FC<{ open: boolean; onClose: () => void }> = ({ open, onClose }) => {
+interface CameraScannerModalProps {
+  open: boolean;
+  onClose: () => void;
+  type: 'passport' | 'mykad';
+}
+
+const CameraScannerModal: React.FC<CameraScannerModalProps> = ({ open, onClose, type }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [stream, setStream] = useState<MediaStream | null>(null);
   const [facingMode, setFacingMode] = useState<'environment' | 'user'>('environment');
   const [captured, setCaptured] = useState<string | null>(null);
+  const [side, setSide] = useState<'front' | 'back'>('front');
 
   useEffect(() => {
     if (open) {
@@ -82,6 +89,15 @@ const CameraScannerModal: React.FC<{ open: boolean; onClose: () => void }> = ({ 
     setCaptured(null);
   };
 
+  const handleNext = () => {
+    if (type === 'mykad' && side === 'front') {
+      setSide('back');
+      setCaptured(null);
+    } else {
+      onClose();
+    }
+  };
+
   if (!open) return null;
 
   return (
@@ -97,7 +113,10 @@ const CameraScannerModal: React.FC<{ open: boolean; onClose: () => void }> = ({ 
         {/* Instruction Banner */}
         <div className="w-full flex justify-center mt-4">
           <div className="bg-neutral-800 text-white text-center text-base rounded-lg px-4 py-3 max-w-xs">
-            Take a clear photo of your entire passport portrait page.
+            {type === 'passport' 
+              ? 'Take a clear photo of your entire passport portrait page.'
+              : `Take a clear photo of your MyKad/MyPR ${side} side.`
+            }
           </div>
         </div>
         {/* Scan Area */}
@@ -114,12 +133,14 @@ const CameraScannerModal: React.FC<{ open: boolean; onClose: () => void }> = ({ 
               />
             )}
             {/* Overlay SVG - Passport outline */}
-            <img 
-              src={passportScanOutline} 
-              alt="Passport Outline" 
-              className="absolute inset-0 w-full h-full object-contain pointer-events-none" 
-              style={{ zIndex: 10, opacity: 0.9 }}
-            />
+            {type === 'passport' && (
+              <img 
+                src={passportScanOutline} 
+                alt="Passport Outline" 
+                className="absolute inset-0 w-full h-full object-contain pointer-events-none" 
+                style={{ zIndex: 10, opacity: 0.9 }}
+              />
+            )}
             {/* Canvas for capture */}
             <canvas ref={canvasRef} style={{ display: 'none' }} />
             {/* Captured image */}
@@ -129,8 +150,17 @@ const CameraScannerModal: React.FC<{ open: boolean; onClose: () => void }> = ({ 
           </div>
           {/* Label Card */}
           <div className="flex items-center bg-neutral-100 rounded-b-2xl w-[340px] py-3 px-4 border-t border-gray-200">
-            <svg width="32" height="32" fill="none" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="3" stroke="#3b82f6" strokeWidth="2" fill="#e0e7ef"/><rect x="5" y="7" width="5" height="6" rx="2" fill="#fff" stroke="#3b82f6" strokeWidth="1.5"/><rect x="12" y="9" width="7" height="2" rx="1" fill="#fff"/><rect x="12" y="13" width="7" height="2" rx="1" fill="#fff"/></svg>
-            <span className="ml-3 text-gray-800 font-medium text-base">Passport Portrait Page</span>
+            {type === 'passport' ? (
+              <>
+                <svg width="32" height="32" fill="none" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="3" stroke="#3b82f6" strokeWidth="2" fill="#e0e7ef"/><rect x="5" y="7" width="5" height="6" rx="2" fill="#fff" stroke="#3b82f6" strokeWidth="1.5"/><rect x="12" y="9" width="7" height="2" rx="1" fill="#fff"/><rect x="12" y="13" width="7" height="2" rx="1" fill="#fff"/></svg>
+                <span className="ml-3 text-gray-800 font-medium text-base">Passport Portrait Page</span>
+              </>
+            ) : (
+              <>
+                <svg width="32" height="32" fill="none" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="3" stroke="#3b82f6" strokeWidth="2" fill="#e0e7ef"/><rect x="5" y="7" width="5" height="6" rx="2" fill="#fff" stroke="#3b82f6" strokeWidth="1.5"/><rect x="12" y="9" width="7" height="2" rx="1" fill="#fff"/><rect x="12" y="13" width="7" height="2" rx="1" fill="#fff"/></svg>
+                <span className="ml-3 text-gray-800 font-medium text-base">MyKad/MyPR {side === 'front' ? 'Front' : 'Back'} Side</span>
+              </>
+            )}
           </div>
         </div>
         {/* Take Photo Button */}
@@ -141,11 +171,13 @@ const CameraScannerModal: React.FC<{ open: boolean; onClose: () => void }> = ({ 
             <button onClick={handleRetake} className="w-[90%] py-4 bg-white text-black text-lg font-semibold rounded-full shadow-md">Retake</button>
           )}
         </div>
-        {/* Bottom right button - Flip Camera or Done */}
+        {/* Bottom right button - Flip Camera or Done/Next */}
         {!captured ? (
           <button onClick={handleFlipCamera} className="absolute bottom-8 right-8 bg-neutral-800 text-white px-4 py-2 rounded-lg font-semibold opacity-80">Flip Camera</button>
         ) : (
-          <button onClick={onClose} className="absolute bottom-8 right-8 bg-neutral-800 text-white px-4 py-2 rounded-lg font-semibold opacity-80">Done</button>
+          <button onClick={handleNext} className="absolute bottom-8 right-8 bg-neutral-800 text-white px-4 py-2 rounded-lg font-semibold opacity-80">
+            {type === 'mykad' && side === 'front' ? 'Next' : 'Done'}
+          </button>
         )}
       </div>
     </div>
@@ -154,9 +186,25 @@ const CameraScannerModal: React.FC<{ open: boolean; onClose: () => void }> = ({ 
 
 const IdentityVerificationPage: React.FC = () => {
   const [showCamera, setShowCamera] = useState(false);
+  const [cameraType, setCameraType] = useState<'passport' | 'mykad'>('passport');
+
+  const handlePassportScan = () => {
+    setCameraType('passport');
+    setShowCamera(true);
+  };
+
+  const handleMyKadScan = () => {
+    setCameraType('mykad');
+    setShowCamera(true);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-start py-8">
-      <CameraScannerModal open={showCamera} onClose={() => setShowCamera(false)} />
+      <CameraScannerModal 
+        open={showCamera} 
+        onClose={() => setShowCamera(false)} 
+        type={cameraType}
+      />
       <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8 mt-8">
         <h2 className="text-center text-2xl font-bold mb-2">Verify Your Identity</h2>
         <p className="text-center text-lg font-bold mb-6 mt-4">Secure Identity Verification</p>
@@ -178,7 +226,12 @@ const IdentityVerificationPage: React.FC = () => {
             <li>✅ Ensure all text and the photo are clear.</li>
             <li>✅ Avoid any shadows or glare.</li>
           </ul>
-          <button className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 rounded-lg transition-colors" onClick={() => setShowCamera(true)}>Scan Passport</button>
+          <button 
+            className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 rounded-lg transition-colors" 
+            onClick={handlePassportScan}
+          >
+            Scan Passport
+          </button>
         </div>
         {/* Malaysian ID Option */}
         <div className="border rounded-xl p-6 bg-gray-50">
@@ -195,7 +248,12 @@ const IdentityVerificationPage: React.FC = () => {
             <li>✅ Ensure the NRIC number is readable.</li>
             <li>✅ Scan both sides clearly.</li>
           </ul>
-          <button className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 rounded-lg transition-colors">Scan MyKad / MyPR</button>
+          <button 
+            className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 rounded-lg transition-colors"
+            onClick={handleMyKadScan}
+          >
+            Scan MyKad / MyPR
+          </button>
         </div>
       </div>
     </div>
