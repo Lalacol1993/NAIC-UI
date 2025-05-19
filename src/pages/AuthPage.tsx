@@ -29,7 +29,7 @@ const AuthPage: React.FC = () => {
   const handleLogin = (email: string, password: string, rememberMe: boolean) => {
     console.log('Login with:', { email, password, rememberMe });
     // Implement actual login logic here
-    alert(`Login attempt with: ${email}`);
+    navigate('/home'); // Updated to navigate to home page after login
   };
 
   const handleSignup = (name: string, email: string, password: string) => {
@@ -128,5 +128,3 @@ const AuthPage: React.FC = () => {
     </AuthLayout>
   );
 };
-
-export default AuthPage;
