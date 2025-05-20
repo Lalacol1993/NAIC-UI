@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Twitter, Github } from 'lucide-react';
 import FormInput from './FormInput';
 import SocialButton from './SocialButton';
-import { DarkModeContext } from '../../App';
 
 interface LoginFormProps {
   onSubmit: (email: string, password: string, rememberMe: boolean) => void;
@@ -10,7 +9,6 @@ interface LoginFormProps {
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({ onSubmit, onForgotPassword }) => {
-  const { dark } = useContext(DarkModeContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -62,7 +60,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit, onForgotPassword }) => 
   };
 
   return (
-    <div className={dark ? 'animate-fadeIn bg-gray-900 text-gray-100' : 'animate-fadeIn'}>
+    <div className="animate-fadeIn">
       <form onSubmit={handleSubmit} className="space-y-5">
         <FormInput
           id="email"
@@ -104,7 +102,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit, onForgotPassword }) => 
               onChange={(e) => setRememberMe(e.target.checked)}
               className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
             />
-            <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900 dark:text-gray-100">
+            <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
               Remember me
             </label>
           </div>
@@ -113,7 +111,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit, onForgotPassword }) => 
             <button
               type="button"
               onClick={onForgotPassword}
-              className="font-medium text-blue-600 dark:text-blue-400 hover:text-blue-500 focus:outline-none focus:underline transition-colors"
+              className="font-medium text-blue-600 hover:text-blue-500 focus:outline-none focus:underline transition-colors"
             >
               Forgot password?
             </button>
