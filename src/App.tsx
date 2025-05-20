@@ -21,8 +21,7 @@ const App: React.FC = () => {
               className="fixed top-4 right-4 z-50 px-3 py-2 rounded bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-200 shadow flex items-center"
               aria-label="Toggle dark mode"
             >
-              {dark ? <Sun className="w-5 h-5 mr-2" /> : <Moon className="w-5 h-5 mr-2" />}
-              {dark ? 'Light Mode' : 'Dark Mode'}
+              {dark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
             </button>
           </UserProvider>
         </div>
