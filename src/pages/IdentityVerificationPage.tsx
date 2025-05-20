@@ -3,7 +3,6 @@ import passportScanOutline from '../assets/passportscanoutline.svg';
 import mykadFrontOutline from '../assets/IDoutlinefront.svg';
 import mykadBackOutline from '../assets/IDoutlineback.svg';
 import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 
 interface CameraScannerModalProps {
   open: boolean;
@@ -19,7 +18,6 @@ const CameraScannerModal: React.FC<CameraScannerModalProps> = ({ open, onClose, 
   const [captured, setCaptured] = useState<string | null>(null);
   const [side, setSide] = useState<'front' | 'back'>('front');
   const navigate = useNavigate();
-  const { t } = useTranslation();
 
   useEffect(() => {
     let localStream: MediaStream | null = null;
@@ -122,10 +120,8 @@ const CameraScannerModal: React.FC<CameraScannerModalProps> = ({ open, onClose, 
         <div className="w-full flex justify-center mt-4">
           <div className="bg-neutral-800 text-white text-center text-base rounded-lg px-4 py-3 max-w-xs">
             {type === 'passport' 
-              ? t('passportBanner')
-              : side === 'front'
-                ? t('mykadBannerFront')
-                : t('mykadBannerBack')
+              ? 'Take a clear photo of your entire passport portrait page.'
+              : `Take a clear photo of your MyKad/MyPR ${side} side.`
             }
           </div>
         </div>
@@ -192,17 +188,17 @@ const CameraScannerModal: React.FC<CameraScannerModalProps> = ({ open, onClose, 
         {/* Take Photo Button */}
         <div className="w-full flex justify-center mb-6 mt-4">
           {!captured ? (
-            <button onClick={handleCapture} className="w-[90%] py-4 bg-white text-black text-lg font-semibold rounded-full shadow-md">{t('takePhoto')}</button>
+            <button onClick={handleCapture} className="w-[90%] py-4 bg-white text-black text-lg font-semibold rounded-full shadow-md">Take photo</button>
           ) : (
-            <button onClick={handleRetake} className="w-[90%] py-4 bg-white text-black text-lg font-semibold rounded-full shadow-md">{t('retake')}</button>
+            <button onClick={handleRetake} className="w-[90%] py-4 bg-white text-black text-lg font-semibold rounded-full shadow-md">Retake</button>
           )}
         </div>
         {/* Bottom right button - Flip Camera or Done/Next */}
         {!captured ? (
-          <button onClick={handleFlipCamera} className="absolute bottom-8 right-8 bg-neutral-800 text-white px-4 py-2 rounded-lg font-semibold opacity-80">{t('flipCamera')}</button>
+          <button onClick={handleFlipCamera} className="absolute bottom-8 right-8 bg-neutral-800 text-white px-4 py-2 rounded-lg font-semibold opacity-80">Flip Camera</button>
         ) : (
           <button onClick={handleNext} className="absolute bottom-8 right-8 bg-neutral-800 text-white px-4 py-2 rounded-lg font-semibold opacity-80">
-            {type === 'mykad' && side === 'front' ? t('next') : t('done')}
+            {type === 'mykad' && side === 'front' ? 'Next' : 'Done'}
           </button>
         )}
       </div>
@@ -213,7 +209,6 @@ const CameraScannerModal: React.FC<CameraScannerModalProps> = ({ open, onClose, 
 const IdentityVerificationPage: React.FC = () => {
   const [showCamera, setShowCamera] = useState(false);
   const [cameraType, setCameraType] = useState<'passport' | 'mykad'>('passport');
-  const { t, i18n } = useTranslation();
 
   const handlePassportScan = () => {
     setCameraType('passport');
@@ -225,78 +220,61 @@ const IdentityVerificationPage: React.FC = () => {
     setShowCamera(true);
   };
 
-  // Language selector
-  const handleLangChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    i18n.changeLanguage(e.target.value);
-  };
-
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-start py-8">
-      {/* Language Selector */}
-      <div className="w-full max-w-md flex justify-end mb-2 pr-2">
-        <select
-          value={i18n.language}
-          onChange={handleLangChange}
-          className="border border-gray-300 rounded px-2 py-1 text-sm focus:ring-blue-500 focus:border-blue-500"
-        >
-          <option value="en">English</option>
-          <option value="ms">Malay</option>
-          <option value="zh">中文</option>
-        </select>
-      </div>
       <CameraScannerModal 
         open={showCamera} 
         onClose={() => setShowCamera(false)} 
         type={cameraType}
       />
       <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8 mt-8">
-        <h2 className="text-center text-2xl font-bold mb-2">{t('verifyIdentity')}</h2>
-        <p className="text-center text-lg font-bold mb-6 mt-4">{t('secureVerification')}</p>
+        <h2 className="text-center text-2xl font-bold mb-2">Verify Your Identity</h2>
+        <p className="text-center text-lg font-bold mb-6 mt-4">Secure Identity Verification</p>
         <p className="text-center text-gray-600 mb-8 text-sm">
-          {t('selectIdType')}
+          Please select the type of identification you wish to scan and follow the instructions carefully.
         </p>
         {/* Passport Option */}
         <div className="border rounded-xl p-6 mb-6 bg-gray-50">
           <div className="flex items-center mb-2">
             <span className="mr-2 text-xl">📘</span>
-            <span className="font-semibold text-lg">{t('passport')}</span>
+            <span className="font-semibold text-lg">Passport</span>
           </div>
           <p className="text-gray-600 text-sm mb-4">
-            {t('passportInstructions')}
+            To scan your passport, open it to the page with your photo and details. Ensure the entire page is visible and well-lit.
           </p>
           <ul className="text-sm text-gray-700 mb-4 space-y-1">
-            <li>✅ {t('passportStep1')}</li>
-            <li>✅ {t('passportStep2')}</li>
-            <li>✅ {t('passportStep3')}</li>
-            <li>✅ {t('passportStep4')}</li>
+            <li>✅ Place your passport on a flat, dark surface.</li>
+            <li>✅ Open to the photo page.</li>
+            <li>✅ Ensure all text and the photo are clear.</li>
+            <li>✅ Avoid any shadows or glare.</li>
           </ul>
           <button 
             className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 rounded-lg transition-colors" 
             onClick={handlePassportScan}
           >
-            {t('scanPassport')}
+            Scan Passport
           </button>
         </div>
         {/* Malaysian ID Option */}
         <div className="border rounded-xl p-6 bg-gray-50">
           <div className="flex items-center mb-2">
             <span className="mr-2 text-xl">💳</span>
-            <span className="font-semibold text-lg">{t('mykad')}</span>
+            <span className="font-semibold text-lg">Malaysian Identity Card (MyKad) / Malaysian Permanent Resident (MyPR)</span>
           </div>
           <p className="text-gray-600 text-sm mb-4">
-            {t('mykadInstructions')}
+            Place your <span className="font-semibold">MyKad / MyPR</span> on a flat surface. Scan both the front and back sides when prompted.
           </p>
           <ul className="text-sm text-gray-700 mb-4 space-y-1">
-            <li>✅ {t('mykadStep1')}</li>
-            <li>✅ {t('mykadStep2')}</li>
-            <li>✅ {t('mykadStep3')}</li>
-            <li>✅ {t('mykadStep4')}</li>
+            <li>✅ Use a dark background.</li>
+            <li>✅ Capture all four corners of the card.</li>
+            <li>✅ Ensure the NRIC number is readable.</li>
+            <li>✅ Scan both sides clearly.</li>
           </ul>
           <button 
             className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 rounded-lg transition-colors"
             onClick={handleMyKadScan}
           >
-            {t('scanMykad')}
+            Scan MyKad / MyPR
           </button>
         </div>
       </div>
