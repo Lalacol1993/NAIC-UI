@@ -8,14 +8,12 @@ import ScanSelection from '../components/scan/ScanSelection';
 import ClinicSelection from '../components/appointments/ClinicSelection';
 import { UserContext } from '../contexts/UserContext';
 import { CLINICS } from '../data/clinics';
-import { DarkModeContext } from '../App';
 
 type AppointmentStep = 'type' | 'calendar' | 'time' | 'confirmation';
 type ScanType = 'lidar' | 'camera';
 
 const HomePage: React.FC = () => {
   const { user } = useContext(UserContext);
-  const { dark } = useContext(DarkModeContext);
   const [activeTab, setActiveTab] = useState<'home' | 'appointments' | 'scan'>('home');
   const [appointmentStep, setAppointmentStep] = useState<AppointmentStep | null>(null);
   const [appointmentType, setAppointmentType] = useState<'physical' | 'online' | null>(null);
