@@ -11,7 +11,7 @@ export const CLINICS: Clinic[] = [
   {
     id: '1',
     name: 'MedCare Clinic Tebrau',
-    logo: 'https://via.placeholder.com/80x40?text=MedCare',
+    logo: require('../assets/Medcare clinic tebrau.jpeg'),
     phone: '+60 7-300 4821',
     address: '12, Jalan Harmoni, Tebrau',
     distance: '0.5',
