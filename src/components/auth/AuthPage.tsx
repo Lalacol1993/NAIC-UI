@@ -6,7 +6,7 @@ const AuthPage: React.FC = () => {
   const { dark } = useContext(DarkModeContext);
   return (
     <div className={dark ? 'min-h-screen flex items-center justify-center bg-gray-900' : 'min-h-screen flex items-center justify-center bg-gray-50'}>
-      <div className="w-full max-w-md p-8 bg-white dark:bg-gray-900 rounded-xl shadow border border-gray-200 dark:border-gray-700">
+      <div className="w-full max-w-md p-8 bg-white dark:bg-gray-800 rounded-xl shadow">
         <LoginForm onSubmit={() => {}} onForgotPassword={() => {}} />
       </div>
     </div>
