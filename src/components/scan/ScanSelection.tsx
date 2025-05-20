@@ -23,7 +23,7 @@ const ScanSelection: React.FC<ScanSelectionProps> = ({ onSelect }) => {
           <img src={placeholderLidar} alt="Lidar Scan" className="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:opacity-95 transition" />
           <div className="absolute inset-0 bg-green-200 bg-opacity-60 group-hover:bg-opacity-70 transition" />
           <div className="absolute top-3 left-3 bg-white bg-opacity-80 text-green-700 text-xs font-semibold px-2 py-0.5 rounded shadow">*Suggested</div>
-          <span className="relative z-10 text-2xl sm:text-3xl font-bold text-white drop-shadow-lg p-4">Lidar Scan</span>
+          <span className="relative z-10 text-2xl sm:text-3xl font-bold text-white drop-shadow-lg p-4 font-sans tracking-wide" style={{fontFamily: 'Inter, sans-serif'}}>Lidar Scan</span>
         </button>
         <button
           onClick={() => onSelect('camera')}
@@ -31,7 +31,7 @@ const ScanSelection: React.FC<ScanSelectionProps> = ({ onSelect }) => {
         >
           <img src={placeholderCamera} alt="Camera Scan" className="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:opacity-95 transition" />
           <div className="absolute inset-0 bg-blue-200 bg-opacity-60 group-hover:bg-opacity-70 transition" />
-          <span className="relative z-10 text-2xl sm:text-3xl font-bold text-white drop-shadow-lg p-4">Camera Scan</span>
+          <span className="relative z-10 text-2xl sm:text-3xl font-bold text-white drop-shadow-lg p-4 font-sans tracking-wide" style={{fontFamily: 'Inter, sans-serif'}}>Camera Scan</span>
         </button>
       </div>
     </div>
