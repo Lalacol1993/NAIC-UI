@@ -6,6 +6,7 @@ import LoginForm from '../components/auth/LoginForm';
 import SignupForm from '../components/auth/SignupForm';
 import ForgotPasswordForm from '../components/auth/ForgotPasswordForm';
 import InvitationCodeForm from '../components/auth/InvitationCodeForm';
+import Questionnaire from '../components/auth/Questionnaire';
 import bluejayLogo from '../assets/bluejay_logo.png';
 
 enum AuthMode {
@@ -17,6 +18,8 @@ enum AuthMode {
 
 const AuthPage: React.FC = () => {
   const [mode, setMode] = useState<AuthMode>(AuthMode.INVITATION);
+  const [showQuestionnaire, setShowQuestionnaire] = useState(false);
+  const [signupData, setSignupData] = useState<any>(null);
   const navigate = useNavigate();
 
   const handleInvitationCode = (code: string) => {
@@ -33,9 +36,8 @@ const AuthPage: React.FC = () => {
   };
 
   const handleSignup = (name: string, email: string, password: string) => {
-    console.log('Signup with:', { name, email, password });
-    // Implement actual signup logic here
-    navigate('/verify-identity');
+    setSignupData({ name, email, password });
+    setShowQuestionnaire(true);
   };
 
   const handleForgotPassword = (email: string) => {
@@ -43,7 +45,17 @@ const AuthPage: React.FC = () => {
     // Implement actual password reset logic here
   };
 
+  const handleQuestionnaireComplete = (answers: any) => {
+    // You can send answers + signupData to your backend here if needed
+    setShowQuestionnaire(false);
+    setSignupData(null);
+    navigate('/verify-identity');
+  };
+
   const renderForm = () => {
+    if (showQuestionnaire) {
+      return <Questionnaire onComplete={handleQuestionnaireComplete} />;
+    }
     switch (mode) {
       case AuthMode.INVITATION:
         return (
