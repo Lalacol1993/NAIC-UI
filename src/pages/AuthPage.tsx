@@ -5,34 +5,23 @@ import AuthCard from '../components/auth/AuthCard';
 import LoginForm from '../components/auth/LoginForm';
 import SignupForm from '../components/auth/SignupForm';
 import ForgotPasswordForm from '../components/auth/ForgotPasswordForm';
-import InvitationCodeForm from '../components/auth/InvitationCodeForm';
 import Questionnaire from '../components/auth/Questionnaire';
 import bluejayLogo from '../assets/bluejay_logo.png';
 
 enum AuthMode {
-  INVITATION = 'invitation',
   LOGIN = 'login',
   SIGNUP = 'signup',
   FORGOT_PASSWORD = 'forgot_password',
 }
 
 const AuthPage: React.FC = () => {
-  const [mode, setMode] = useState<AuthMode>(AuthMode.INVITATION);
+  const [mode, setMode] = useState<AuthMode>(AuthMode.LOGIN);
   const [showQuestionnaire, setShowQuestionnaire] = useState(false);
   const [signupData, setSignupData] = useState<any>(null);
   const navigate = useNavigate();
 
-  const handleInvitationCode = (code: string) => {
-    console.log('Invitation code:', code);
-    // Here you would typically validate the invitation code
-    // For now, we'll just proceed to login
-    setMode(AuthMode.LOGIN);
-  };
-
   const handleLogin = (email: string, password: string, rememberMe: boolean) => {
-    console.log('Login with:', { email, password, rememberMe });
-    // Implement actual login logic here
-    navigate('/home'); // Updated to navigate to home page after login
+    navigate('/home');
   };
 
   const handleSignup = (name: string, email: string, password: string) => {
@@ -41,12 +30,10 @@ const AuthPage: React.FC = () => {
   };
 
   const handleForgotPassword = (email: string) => {
-    console.log('Reset password for:', email);
     // Implement actual password reset logic here
   };
 
   const handleQuestionnaireComplete = (answers: any) => {
-    // You can send answers + signupData to your backend here if needed
     setShowQuestionnaire(false);
     setSignupData(null);
     navigate('/verify-identity');
@@ -57,26 +44,6 @@ const AuthPage: React.FC = () => {
       return <Questionnaire onComplete={handleQuestionnaireComplete} />;
     }
     switch (mode) {
-      case AuthMode.INVITATION:
-        return (
-          <AuthCard 
-            title="Join BlueJay" 
-            description="Enter your invitation code to continue"
-            logo={bluejayLogo}
-          >
-            <InvitationCodeForm onSubmit={handleInvitationCode} />
-            <p className="mt-6 text-center text-sm text-gray-600">
-              Already have an account?{' '}
-              <button
-                onClick={() => setMode(AuthMode.LOGIN)}
-                className="font-medium text-blue-600 hover:text-blue-500 focus:outline-none focus:underline transition-colors"
-              >
-                Log In
-              </button>
-            </p>
-          </AuthCard>
-        );
-
       case AuthMode.LOGIN:
         return (
           <AuthCard 
@@ -99,7 +66,6 @@ const AuthPage: React.FC = () => {
             </p>
           </AuthCard>
         );
-        
       case AuthMode.SIGNUP:
         return (
           <AuthCard 
@@ -119,7 +85,6 @@ const AuthPage: React.FC = () => {
             </p>
           </AuthCard>
         );
-        
       case AuthMode.FORGOT_PASSWORD:
         return (
           <AuthCard 
@@ -141,4 +106,4 @@ const AuthPage: React.FC = () => {
   );
 };
 
-export default AuthPage
+export default AuthPage;

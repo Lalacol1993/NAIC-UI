@@ -102,7 +102,7 @@ const CameraScannerModal: React.FC<CameraScannerModalProps> = ({ open, onClose, 
     } else {
       stopStream();
       onClose();
-      navigate('/home'); // Navigate to home page after completion
+      navigate('/fee-waiver-upload'); // Navigate to fee waiver upload after completion
     }
   };
 
