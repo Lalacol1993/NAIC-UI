@@ -62,10 +62,19 @@ const Questionnaire: React.FC<QuestionnaireProps> = ({ onComplete }) => {
           </div>
           <div>
             <label className="block text-lg font-semibold mb-3 text-gray-900">2. Which state do you currently reside in?</label>
-            <select className="w-full border border-gray-300 rounded-lg p-3 text-base focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" value={state} onChange={e => setState(e.target.value)}>
-              <option value="">Select a state</option>
-              {STATES.map(s => <option key={s} value={s}>{s}</option>)}
-            </select>
+            <div className="relative">
+              <select
+                className="w-full appearance-none bg-gray-50 border border-gray-200 rounded-xl p-3 pr-10 text-base focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition shadow-sm hover:border-blue-300 outline-none"
+                value={state}
+                onChange={e => setState(e.target.value)}
+              >
+                <option value="">Select a state</option>
+                {STATES.map(s => <option key={s} value={s}>{s}</option>)}
+              </select>
+              <span className="pointer-events-none absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400">
+                <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              </span>
+            </div>
           </div>
           <div>
             <label className="block text-lg font-semibold mb-3 text-gray-900">3. What is your profession?</label>
