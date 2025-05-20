@@ -35,7 +35,7 @@ const CameraScannerModal: React.FC<CameraScannerModalProps> = ({ open, onClose, 
       // Don't stop stream here
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open, facingMode]);
+  }, [open, facingMode, side]);
 
   const stopStream = () => {
     if (stream) {
