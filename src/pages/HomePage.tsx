@@ -6,6 +6,7 @@ import TimeSelection from '../components/appointments/TimeSelection';
 import AppointmentConfirmation from '../components/appointments/AppointmentConfirmation';
 import ScanSelection from '../components/scan/ScanSelection';
 import ClinicSelection from '../components/appointments/ClinicSelection';
+import ScanTips from '../components/scan/ScanTips';
 import { UserContext } from '../contexts/UserContext';
 import { CLINICS } from '../data/clinics';
 
@@ -29,6 +30,8 @@ const HomePage: React.FC = () => {
     clinic?: any;
   }>(null);
   const [rescheduling, setRescheduling] = useState(false);
+  const [selectedScanType, setSelectedScanType] = useState<ScanType | null>(null);
+  const [showScanTips, setShowScanTips] = useState(false);
 
   const handleAppointmentTypeSelect = (type: 'physical' | 'online') => {
     if (type === 'physical') {
@@ -95,9 +98,14 @@ const HomePage: React.FC = () => {
   };
 
   const handleScanTypeSelect = (type: ScanType) => {
-    // Handle scan type selection
+    setSelectedScanType(type);
     setShowScanSelection(false);
-    setActiveTab('home');
+    setShowScanTips(true);
+  };
+
+  const handleScanTipsContinue = () => {
+    setShowScanTips(false);
+    setActiveTab('home'); // TODO: Replace with actual scan/camera modal navigation
   };
 
   const handleHomeClick = () => {
@@ -118,6 +126,9 @@ const HomePage: React.FC = () => {
   };
 
   const renderContent = () => {
+    if (showScanTips && selectedScanType) {
+      return <ScanTips type={selectedScanType} onContinue={handleScanTipsContinue} />;
+    }
     if (showScanSelection) {
       return <ScanSelection onSelect={handleScanTypeSelect} />;
     }
