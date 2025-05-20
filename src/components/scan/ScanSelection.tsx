@@ -9,29 +9,29 @@ const placeholderCamera = 'https://raw.githubusercontent.com/Lalacol1993/NAIC-UI
 
 const ScanSelection: React.FC<ScanSelectionProps> = ({ onSelect }) => {
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center px-4 pt-8">
-      {/* Title */}
-      <h1 className="text-xl font-bold text-blue-700 mb-2">Scanning</h1>
-      {/* Card Buttons */}
-      <div className="w-full max-w-md grid grid-cols-1 gap-6 mt-4">
+    <div className="min-h-screen bg-gray-50 flex flex-col items-center px-4 pt-6">
+      {/* Subtitle */}
+      <div className="w-full max-w-md text-left mb-4">
+        <span className="text-lg font-bold text-blue-700">Scanning</span>
+      </div>
+      {/* Scan Options */}
+      <div className="w-full max-w-md grid grid-cols-1 gap-6 sm:grid-cols-2">
         <button
           onClick={() => onSelect('lidar')}
-          className="w-full bg-green-100 rounded-xl shadow flex flex-col items-center p-0 overflow-hidden relative hover:shadow-lg transition"
+          className="relative rounded-xl overflow-hidden shadow-lg h-48 flex items-end justify-start focus:outline-none group"
         >
-          <img src={placeholderLidar} alt="Lidar Scan" className="w-full h-40 object-cover" />
-          <div className="absolute top-2 left-2 bg-white bg-opacity-80 text-green-700 text-xs font-semibold px-2 py-0.5 rounded">*Suggested</div>
-          <div className="absolute bottom-4 left-0 w-full flex justify-center">
-            <span className="text-2xl font-bold text-white drop-shadow-lg">Lidar Scan</span>
-          </div>
+          <img src={placeholderLidar} alt="Lidar Scan" className="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:opacity-95 transition" />
+          <div className="absolute inset-0 bg-green-200 bg-opacity-60 group-hover:bg-opacity-70 transition" />
+          <div className="absolute top-3 left-3 bg-white bg-opacity-80 text-green-700 text-xs font-semibold px-2 py-0.5 rounded shadow">*Suggested</div>
+          <span className="relative z-10 text-2xl sm:text-3xl font-bold text-white drop-shadow-lg p-4">Lidar Scan</span>
         </button>
         <button
           onClick={() => onSelect('camera')}
-          className="w-full bg-blue-100 rounded-xl shadow flex flex-col items-center p-0 overflow-hidden relative hover:shadow-lg transition"
+          className="relative rounded-xl overflow-hidden shadow-lg h-48 flex items-end justify-start focus:outline-none group"
         >
-          <img src={placeholderCamera} alt="Camera Scan" className="w-full h-40 object-cover" />
-          <div className="absolute bottom-4 left-0 w-full flex justify-center">
-            <span className="text-2xl font-bold text-white drop-shadow-lg">Camera Scan</span>
-          </div>
+          <img src={placeholderCamera} alt="Camera Scan" className="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:opacity-95 transition" />
+          <div className="absolute inset-0 bg-blue-200 bg-opacity-60 group-hover:bg-opacity-70 transition" />
+          <span className="relative z-10 text-2xl sm:text-3xl font-bold text-white drop-shadow-lg p-4">Camera Scan</span>
         </button>
       </div>
     </div>
