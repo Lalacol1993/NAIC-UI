@@ -20,27 +20,29 @@ const CameraScannerModal: React.FC<CameraScannerModalProps> = ({ open, onClose, 
   const navigate = useNavigate();
 
   useEffect(() => {
+    let localStream: MediaStream | null = null;
     if (open) {
       navigator.mediaDevices.getUserMedia({ video: { facingMode } })
         .then((mediaStream) => {
           setStream(mediaStream);
+          localStream = mediaStream;
           if (videoRef.current) {
             videoRef.current.srcObject = mediaStream;
           }
         });
-    } else {
-      if (stream) {
-        stream.getTracks().forEach(track => track.stop());
-        setStream(null);
-      }
     }
     return () => {
-      if (stream) {
-        stream.getTracks().forEach(track => track.stop());
-      }
+      // Don't stop stream here
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, facingMode]);
+
+  const stopStream = () => {
+    if (stream) {
+      stream.getTracks().forEach(track => track.stop());
+      setStream(null);
+    }
+  };
 
   const handleCapture = () => {
     if (videoRef.current && canvasRef.current) {
@@ -98,6 +100,7 @@ const CameraScannerModal: React.FC<CameraScannerModalProps> = ({ open, onClose, 
       setSide('back');
       setCaptured(null);
     } else {
+      stopStream();
       onClose();
       navigate('/home'); // Navigate to home page after completion
     }
