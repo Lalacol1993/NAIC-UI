@@ -31,6 +31,7 @@ const HomePage: React.FC = () => {
     clinic?: any;
   }>(null);
   const [rescheduling, setRescheduling] = useState(false);
+  const [showAppointmentConfirmed, setShowAppointmentConfirmed] = useState(false);
 
   const handleAppointmentTypeSelect = (type: 'physical' | 'online') => {
     if (type === 'physical') {
@@ -66,6 +67,7 @@ const HomePage: React.FC = () => {
         time: selectedTime,
         clinic: appointmentType === 'physical' ? selectedClinic : undefined,
       });
+      setShowAppointmentConfirmed(true);
     }
     setAppointmentStep(null);
     setAppointmentType(null);
@@ -83,6 +85,7 @@ const HomePage: React.FC = () => {
     setSelectedTime(nextAppointment?.time || null);
     setAppointmentType(nextAppointment?.type || null);
     setSelectedClinic(nextAppointment?.clinic || null);
+    setShowAppointmentConfirmed(false);
   };
 
   const handleAppointmentCancel = () => {
@@ -93,6 +96,7 @@ const HomePage: React.FC = () => {
     setSelectedTime(null);
     setSelectedClinic(null);
     setRescheduling(false);
+    setShowAppointmentConfirmed(false);
     setActiveTab('home');
   };
 
@@ -124,9 +128,21 @@ const HomePage: React.FC = () => {
       return <ScanSelection onSelect={handleScanTypeSelect} />;
     }
     if (showClinicSelection) {
-      return <ClinicSelection clinics={CLINICS} onSelectClinic={handleClinicSelect} />;
+      return <ClinicSelection clinics={CLINICS} onSelectClinic={handleClinicSelect} onBack={() => { setShowClinicSelection(false); setAppointmentStep('type'); }} />;
     }
-
+    if (showAppointmentConfirmed && nextAppointment) {
+      return (
+        <AppointmentConfirmation
+          appointmentType={nextAppointment.type}
+          date={nextAppointment.date}
+          time={nextAppointment.time}
+          onConfirm={() => setShowAppointmentConfirmed(false)}
+          onEdit={handleAppointmentEdit}
+          onCancel={handleAppointmentCancel}
+          clinic={nextAppointment.clinic}
+        />
+      );
+    }
     if (appointmentStep) {
       switch (appointmentStep) {
         case 'type':
