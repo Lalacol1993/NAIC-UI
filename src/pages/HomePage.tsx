@@ -267,15 +267,15 @@ const HomePage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col pb-24">
+    <div className={dark ? 'dark min-h-screen bg-gray-900' : 'min-h-screen bg-gray-50'}>
       {renderContent()}
 
       {/* Bottom Navigation Bar */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 h-16 flex items-center justify-between px-4">
+      <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 h-16 flex items-center justify-between px-4">
         <button 
           onClick={handleHomeClick}
           className={`flex flex-col items-center justify-center transition-colors ${
-            activeTab === 'home' ? 'text-blue-600' : 'text-gray-600 hover:text-blue-600'
+            activeTab === 'home' ? 'text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'
           }`}
         >
           <Home size={24} />
@@ -286,7 +286,7 @@ const HomePage: React.FC = () => {
         <div className="flex-1 flex justify-center">
           <button 
             onClick={handleScanClick}
-            className="relative -top-6 bg-blue-600 w-16 h-16 rounded-full flex items-center justify-center text-white shadow-lg hover:bg-blue-700 transition-colors"
+            className="relative -top-6 bg-blue-600 dark:bg-blue-700 w-16 h-16 rounded-full flex items-center justify-center text-white shadow-lg hover:bg-blue-700 dark:hover:bg-blue-800 transition-colors"
           >
             <Camera size={28} />
           </button>
@@ -295,7 +295,7 @@ const HomePage: React.FC = () => {
         <button 
           onClick={handleAppointmentsClick}
           className={`flex flex-col items-center justify-center transition-colors ${
-            activeTab === 'appointments' ? 'text-blue-600' : 'text-gray-600 hover:text-blue-600'
+            activeTab === 'appointments' ? 'text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'
           }`}
         >
           <Calendar size={24} />
