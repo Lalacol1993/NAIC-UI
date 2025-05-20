@@ -4,8 +4,8 @@ interface ScanSelectionProps {
   onSelect: (type: 'lidar' | 'camera') => void;
 }
 
-const placeholderLidar = 'https://via.placeholder.com/300x200?text=Lidar+Scan';
-const placeholderCamera = 'https://via.placeholder.com/300x200?text=Camera+Scan';
+const placeholderLidar = 'https://raw.githubusercontent.com/Lalacol1993/NAIC-UI/refs/heads/main/src/assets/Lidar%20scan%20image.png';
+const placeholderCamera = 'https://raw.githubusercontent.com/Lalacol1993/NAIC-UI/refs/heads/main/src/assets/Camera%20scan%20image.png';
 
 const ScanSelection: React.FC<ScanSelectionProps> = ({ onSelect }) => {
   return (
