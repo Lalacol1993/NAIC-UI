@@ -8,12 +8,14 @@ import ScanSelection from '../components/scan/ScanSelection';
 import ClinicSelection from '../components/appointments/ClinicSelection';
 import { UserContext } from '../contexts/UserContext';
 import { CLINICS } from '../data/clinics';
+import { DarkModeContext } from '../App';
 
 type AppointmentStep = 'type' | 'calendar' | 'time' | 'confirmation';
 type ScanType = 'lidar' | 'camera';
 
 const HomePage: React.FC = () => {
   const { user } = useContext(UserContext);
+  const { dark } = useContext(DarkModeContext);
   const [activeTab, setActiveTab] = useState<'home' | 'appointments' | 'scan'>('home');
   const [appointmentStep, setAppointmentStep] = useState<AppointmentStep | null>(null);
   const [appointmentType, setAppointmentType] = useState<'physical' | 'online' | null>(null);
@@ -22,6 +24,13 @@ const HomePage: React.FC = () => {
   const [showScanSelection, setShowScanSelection] = useState(false);
   const [showClinicSelection, setShowClinicSelection] = useState(false);
   const [selectedClinic, setSelectedClinic] = useState(null);
+  const [nextAppointment, setNextAppointment] = useState<null | {
+    type: 'physical' | 'online';
+    date: Date;
+    time: string;
+    clinic?: any;
+  }>(null);
+  const [rescheduling, setRescheduling] = useState(false);
 
   const handleAppointmentTypeSelect = (type: 'physical' | 'online') => {
     if (type === 'physical') {
@@ -50,16 +59,41 @@ const HomePage: React.FC = () => {
   };
 
   const handleAppointmentConfirm = () => {
-    // Handle appointment confirmation
+    if (selectedDate && selectedTime && appointmentType) {
+      setNextAppointment({
+        type: appointmentType,
+        date: selectedDate,
+        time: selectedTime,
+        clinic: appointmentType === 'physical' ? selectedClinic : undefined,
+      });
+    }
     setAppointmentStep(null);
     setAppointmentType(null);
     setSelectedDate(null);
     setSelectedTime(null);
+    setSelectedClinic(null);
+    setRescheduling(false);
     setActiveTab('home');
   };
 
   const handleAppointmentEdit = () => {
-    setAppointmentStep('type');
+    setRescheduling(true);
+    setAppointmentStep('calendar');
+    setSelectedDate(nextAppointment?.date || null);
+    setSelectedTime(nextAppointment?.time || null);
+    setAppointmentType(nextAppointment?.type || null);
+    setSelectedClinic(nextAppointment?.clinic || null);
+  };
+
+  const handleAppointmentCancel = () => {
+    setNextAppointment(null);
+    setAppointmentStep(null);
+    setAppointmentType(null);
+    setSelectedDate(null);
+    setSelectedTime(null);
+    setSelectedClinic(null);
+    setRescheduling(false);
+    setActiveTab('home');
   };
 
   const handleScanTypeSelect = (type: ScanType) => {
@@ -109,41 +143,54 @@ const HomePage: React.FC = () => {
               time={selectedTime}
               onConfirm={handleAppointmentConfirm}
               onEdit={handleAppointmentEdit}
+              onCancel={handleAppointmentCancel}
+              rescheduling={rescheduling}
+              clinic={appointmentType === 'physical' ? selectedClinic : undefined}
             />
           );
       }
     }
 
     return (
-      <div className="flex-1 p-4">
+      <div className={dark ? 'flex-1 p-4 bg-gray-900 text-gray-100' : 'flex-1 p-4 bg-gray-50 text-gray-900'}>
         <h1 className="text-2xl font-bold mb-2">
           hi, {user?.name || 'there'}
         </h1>
-        <p className="text-gray-600 text-sm mb-6">Let's work on your recovery today</p>
+        <p className="text-gray-600 dark:text-gray-300 text-sm mb-6">Let's work on your recovery today</p>
 
         {/* Next Appointment Section */}
-        <div className="bg-white rounded-xl p-4 shadow-sm mb-6">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="font-semibold text-gray-800">Next Appointment</h2>
-            <button 
-              className="text-blue-600 text-sm font-medium flex items-center"
-              onClick={handleAppointmentsClick}
-            >
-              View All
-              <ChevronRight size={16} className="ml-1" />
-            </button>
-          </div>
-          
-          <div className="flex items-center p-3 bg-blue-50 rounded-lg">
-            <div className="h-10 w-10 bg-blue-100 rounded-full flex items-center justify-center">
-              <Clock size={20} className="text-blue-600" />
+        {nextAppointment && (
+          <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm mb-6">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="font-semibold text-gray-800 dark:text-gray-100">Next Appointment</h2>
+              <button 
+                className="text-blue-600 dark:text-blue-400 text-sm font-medium flex items-center"
+                onClick={handleAppointmentEdit}
+              >
+                Reschedule
+              </button>
+              <button 
+                className="text-red-600 dark:text-red-400 text-sm font-medium flex items-center ml-2"
+                onClick={handleAppointmentCancel}
+              >
+                Cancel
+              </button>
             </div>
-            <div className="ml-3">
-              <h3 className="font-medium text-gray-900">Physical Therapy</h3>
-              <p className="text-sm text-gray-600">Tomorrow, 2:00 PM</p>
+            <div className="flex items-center p-3 bg-blue-50 dark:bg-blue-900 rounded-lg">
+              <div className="h-10 w-10 bg-blue-100 dark:bg-blue-800 rounded-full flex items-center justify-center">
+                <Clock size={20} className="text-blue-600 dark:text-blue-300" />
+              </div>
+              <div className="ml-3">
+                <h3 className="font-medium text-gray-900 dark:text-gray-100">
+                  {nextAppointment.type === 'physical' && nextAppointment.clinic ? nextAppointment.clinic.name : 'Online Consultation'}
+                </h3>
+                <p className="text-sm text-gray-600 dark:text-gray-300">
+                  {nextAppointment.date.toLocaleDateString()} at {nextAppointment.time}
+                </p>
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
         {/* Personalized Exercise Section */}
         <div className="bg-white rounded-xl p-4 shadow-sm">
