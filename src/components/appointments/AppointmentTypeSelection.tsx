@@ -1,6 +1,6 @@
 import React from 'react';
 import { Calendar, Video } from 'lucide-react';
-import jayLogo from '../../assets/jay-logo.png'; // Adjust path as needed
+// import jayLogo from '../../assets/jay-logo.png'; // Logo import removed
 
 interface AppointmentTypeSelectionProps {
   onSelect: (type: 'physical' | 'online') => void;
@@ -9,10 +9,9 @@ interface AppointmentTypeSelectionProps {
 const AppointmentTypeSelection: React.FC<AppointmentTypeSelectionProps> = ({ onSelect }) => {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col items-center px-4 pt-8 relative">
-      {/* Title and Logo */}
-      <div className="w-full flex items-center justify-between mb-8">
+      {/* Title only, logo removed */}
+      <div className="w-full flex items-center mb-8">
         <h1 className="text-2xl font-bold text-blue-700">Appointment Options</h1>
-        <img src={jayLogo} alt="Jay Logo" className="w-12 h-12 rounded-full object-contain" />
       </div>
       {/* Card Buttons */}
       <div className="w-full max-w-md space-y-6">
