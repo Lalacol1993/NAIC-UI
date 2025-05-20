@@ -113,9 +113,7 @@ const CameraScannerModal: React.FC<CameraScannerModalProps> = ({ open, onClose, 
       <div className="relative w-full max-w-md h-[95vh] flex flex-col items-center justify-between">
         {/* Top Bar */}
         <div className="flex items-center justify-between w-full px-4 pt-4">
-          <button className="text-white text-2xl font-bold" aria-label="Back">
-            <svg width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
-          </button>
+          <div></div>
           <button onClick={onClose} className="text-white text-2xl font-bold" aria-label="Close">&times;</button>
         </div>
         {/* Instruction Banner */}
