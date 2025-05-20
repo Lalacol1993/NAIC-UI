@@ -5,10 +5,38 @@ import AppointmentCalendar from '../components/appointments/AppointmentCalendar'
 import TimeSelection from '../components/appointments/TimeSelection';
 import AppointmentConfirmation from '../components/appointments/AppointmentConfirmation';
 import ScanSelection from '../components/scan/ScanSelection';
+import ClinicSelection from '../components/appointments/ClinicSelection';
 import { UserContext } from '../contexts/UserContext';
 
 type AppointmentStep = 'type' | 'calendar' | 'time' | 'confirmation';
 type ScanType = 'lidar' | 'camera';
+
+const CLINICS = [
+  {
+    id: '1',
+    name: 'MedCare Clinic Tebrau',
+    logo: 'https://via.placeholder.com/80x40?text=MedCare',
+    phone: '+60 7-300 4821',
+    address: '12, Jalan Harmoni, Tebrau',
+    distance: '0.5',
+  },
+  {
+    id: '2',
+    name: 'Tebrau Wellness Centre',
+    logo: 'https://via.placeholder.com/80x40?text=Tebrau',
+    phone: '+60 7-301 5743',
+    address: '25, Jalan Sentral, Tebrau',
+    distance: '1.8',
+  },
+  {
+    id: '3',
+    name: 'PrimeCare Health Clinic',
+    logo: 'https://via.placeholder.com/80x40?text=PrimeCare',
+    phone: '+60 7-302 6895',
+    address: '40, Jalan Damai, Tebrau',
+    distance: '2.9',
+  },
+];
 
 const HomePage: React.FC = () => {
   const { user } = useContext(UserContext);
@@ -18,9 +46,22 @@ const HomePage: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [showScanSelection, setShowScanSelection] = useState(false);
+  const [showClinicSelection, setShowClinicSelection] = useState(false);
+  const [selectedClinic, setSelectedClinic] = useState(null);
 
   const handleAppointmentTypeSelect = (type: 'physical' | 'online') => {
-    setAppointmentType(type);
+    if (type === 'physical') {
+      setShowClinicSelection(true);
+      setAppointmentType(type);
+    } else {
+      setAppointmentType(type);
+      setAppointmentStep('calendar');
+    }
+  };
+
+  const handleClinicSelect = (clinic: any) => {
+    setSelectedClinic(clinic);
+    setShowClinicSelection(false);
     setAppointmentStep('calendar');
   };
 
@@ -73,6 +114,9 @@ const HomePage: React.FC = () => {
   const renderContent = () => {
     if (showScanSelection) {
       return <ScanSelection onSelect={handleScanTypeSelect} />;
+    }
+    if (showClinicSelection) {
+      return <ClinicSelection clinics={CLINICS} onSelectClinic={handleClinicSelect} />;
     }
 
     if (appointmentStep) {
