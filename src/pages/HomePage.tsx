@@ -152,39 +152,39 @@ const HomePage: React.FC = () => {
     }
 
     return (
-      <div className={dark ? 'flex-1 p-4 bg-gray-900 text-gray-100' : 'flex-1 p-4 bg-gray-50 text-gray-900'}>
+      <div className="flex-1 p-4 bg-gray-50">
         <h1 className="text-2xl font-bold mb-2">
           hi, {user?.name || 'there'}
         </h1>
-        <p className="text-gray-600 dark:text-gray-300 text-sm mb-6">Let's work on your recovery today</p>
+        <p className="text-gray-600 text-sm mb-6">Let's work on your recovery today</p>
 
         {/* Next Appointment Section */}
         {nextAppointment && (
-          <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm mb-6">
+          <div className="bg-white rounded-xl p-4 shadow-sm mb-6">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="font-semibold text-gray-800 dark:text-gray-100">Next Appointment</h2>
+              <h2 className="font-semibold">Next Appointment</h2>
               <button 
-                className="text-blue-600 dark:text-blue-400 text-sm font-medium flex items-center"
+                className="text-blue-600 text-sm font-medium flex items-center"
                 onClick={handleAppointmentEdit}
               >
                 Reschedule
               </button>
               <button 
-                className="text-red-600 dark:text-red-400 text-sm font-medium flex items-center ml-2"
+                className="text-red-600 text-sm font-medium flex items-center ml-2"
                 onClick={handleAppointmentCancel}
               >
                 Cancel
               </button>
             </div>
-            <div className="flex items-center p-3 bg-blue-50 dark:bg-blue-900 rounded-lg">
-              <div className="h-10 w-10 bg-blue-100 dark:bg-blue-800 rounded-full flex items-center justify-center">
-                <Clock size={20} className="text-blue-600 dark:text-blue-300" />
+            <div className="flex items-center p-3 bg-blue-50 rounded-lg">
+              <div className="h-10 w-10 bg-blue-100 rounded-full flex items-center justify-center">
+                <Clock size={20} className="text-blue-600" />
               </div>
               <div className="ml-3">
-                <h3 className="font-medium text-gray-900 dark:text-gray-100">
+                <h3 className="font-medium">
                   {nextAppointment.type === 'physical' && nextAppointment.clinic ? nextAppointment.clinic.name : 'Online Consultation'}
                 </h3>
-                <p className="text-sm text-gray-600 dark:text-gray-300">
+                <p className="text-sm">
                   {nextAppointment.date.toLocaleDateString()} at {nextAppointment.time}
                 </p>
               </div>
@@ -195,7 +195,7 @@ const HomePage: React.FC = () => {
         {/* Personalized Exercise Section */}
         <div className="bg-white rounded-xl p-4 shadow-sm">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="font-semibold text-gray-800">Today's Exercises</h2>
+            <h2 className="font-semibold">Today's Exercises</h2>
             <button className="text-blue-600 text-sm font-medium flex items-center">
               See All
               <ChevronRight size={16} className="ml-1" />
@@ -209,8 +209,8 @@ const HomePage: React.FC = () => {
                 <Dumbbell size={20} className="text-emerald-600" />
               </div>
               <div className="ml-3 flex-1">
-                <h3 className="font-medium text-gray-900">Shoulder Stretches</h3>
-                <p className="text-sm text-gray-600">3 sets × 10 reps</p>
+                <h3 className="font-medium">Shoulder Stretches</h3>
+                <p className="text-sm">3 sets × 10 reps</p>
               </div>
               <button className="bg-emerald-500 text-white text-sm font-medium px-3 py-1 rounded-full">
                 Start
@@ -223,8 +223,8 @@ const HomePage: React.FC = () => {
                 <Dumbbell size={20} className="text-emerald-600" />
               </div>
               <div className="ml-3 flex-1">
-                <h3 className="font-medium text-gray-900">Wrist Mobility</h3>
-                <p className="text-sm text-gray-600">4 sets × 8 reps</p>
+                <h3 className="font-medium">Wrist Mobility</h3>
+                <p className="text-sm">4 sets × 8 reps</p>
               </div>
               <button className="bg-emerald-500 text-white text-sm font-medium px-3 py-1 rounded-full">
                 Start
@@ -237,8 +237,8 @@ const HomePage: React.FC = () => {
                 <Dumbbell size={20} className="text-emerald-600" />
               </div>
               <div className="ml-3 flex-1">
-                <h3 className="font-medium text-gray-900">Hand Exercises</h3>
-                <p className="text-sm text-gray-600">2 sets × 15 reps</p>
+                <h3 className="font-medium">Hand Exercises</h3>
+                <p className="text-sm">2 sets × 15 reps</p>
               </div>
               <button className="bg-emerald-500 text-white text-sm font-medium px-3 py-1 rounded-full">
                 Start
@@ -251,9 +251,8 @@ const HomePage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col pb-24">
+    <div className="min-h-screen bg-gray-50">
       {renderContent()}
-
       {/* Bottom Navigation Bar */}
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 h-16 flex items-center justify-between px-4">
         <button 
@@ -265,7 +264,6 @@ const HomePage: React.FC = () => {
           <Home size={24} />
           <span className="text-xs mt-1">Home</span>
         </button>
-        
         {/* Centered Scan Button */}
         <div className="flex-1 flex justify-center">
           <button 
@@ -275,7 +273,6 @@ const HomePage: React.FC = () => {
             <Camera size={28} />
           </button>
         </div>
-        
         <button 
           onClick={handleAppointmentsClick}
           className={`flex flex-col items-center justify-center transition-colors ${
