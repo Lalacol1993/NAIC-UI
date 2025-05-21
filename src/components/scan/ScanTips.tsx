@@ -41,12 +41,6 @@ const ScanTips: React.FC<ScanTipsProps> = ({ type, onContinue }) => {
           >
             Open Polycam
           </a>
-          <button
-            onClick={onContinue}
-            className="w-full mt-4 text-gray-600 hover:text-gray-800 font-medium transition-colors"
-          >
-            Continue without Polycam
-          </button>
         </div>
       </div>
     );
