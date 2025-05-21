@@ -31,17 +31,15 @@ const ScanTips: React.FC<ScanTipsProps> = ({ type, onContinue }) => {
     return (
       <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center px-4">
         <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8 animate-fadeIn">
-          <h2 className="text-2xl font-bold text-blue-700 mb-4 text-center">Download Polycam</h2>
+          <h2 className="text-2xl font-bold text-blue-700 mb-4 text-center">Open Polycam</h2>
           <p className="text-gray-700 mb-6 text-center">
-            For the best scanning experience, we recommend using the Polycam app on your iOS device.
+            Please open the Polycam app on your iOS device to continue with the scan.
           </p>
           <a
-            href="https://apps.apple.com/app/polycam-3d-scanner/id1532482376"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="polycam://"
             className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition-colors text-lg text-center block"
           >
-            Download Polycam
+            Open Polycam
           </a>
           <button
             onClick={onContinue}
